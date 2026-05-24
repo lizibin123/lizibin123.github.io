@@ -133,9 +133,11 @@ if (form) {
     submitBtn.disabled = true;
     submitBtn.textContent = '提交中...';
 
-    // 方案一：尝试提交到本地服务
+    // 方案一：提交到 API（部署到 Vercel 时用同一域名下的 /api/submit）
+    const API_URL = '/api/submit';
+
     try {
-      const response = await fetch('http://localhost:3456/submit', {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, contact, message })
@@ -147,8 +149,8 @@ if (form) {
         return;
       }
     } catch (e) {
-      // 本地服务未启动，走 fallback
-      console.log('本地服务未运行，走邮件备选方案');
+      // API 未部署或出错，走邮件备选
+      console.log('API 不可用，走邮件备选');
     }
 
     // 方案二：邮件备选（本地服务没启动时）
