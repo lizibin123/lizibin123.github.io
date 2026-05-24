@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>推荐 5 个提升开发效率的开源工具 · 永乐工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .article { max-width: 720px; margin: 100px auto 60px; padding: 0 24px; }
+    .article-back { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 14px; margin-bottom: 40px; transition: color 0.2s; }
+    .article-back:hover { color: #64ffda; }
+    .article h1 { font-size: 32px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 12px; }
+    .article-meta { font-size: 14px; color: rgba(255,255,255,0.25); margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .article-body { font-size: 16px; line-height: 1.9; color: rgba(255,255,255,0.65); }
+    .article-body h2 { font-size: 22px; font-weight: 600; color: #fff; margin: 36px 0 16px; }
+    .article-body h3 { font-size: 18px; font-weight: 600; color: #fff; margin: 28px 0 12px; }
+    .article-body p { margin-bottom: 20px; }
+    .article-body ul, .article-body ol { margin: 16px 0; padding-left: 24px; }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: #fff; }
+    .article-body code { background: rgba(100,255,218,0.06); border: 1px solid rgba(100,255,218,0.1); padding: 2px 8px; border-radius: 4px; font-size: 14px; color: #64ffda; }
+    .article-body .highlight-box { background: rgba(100,255,218,0.04); border: 1px solid rgba(100,255,218,0.08); border-left: 3px solid #64ffda; border-radius: 8px; padding: 20px 24px; margin: 24px 0; }
+    .article-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .article-nav a { font-size: 14px; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+    .article-nav a:hover { color: #64ffda; }
+  </style>
+</head>
+<body>
+  <div class="article">
+    <a href="../index.html#notes" class="article-back">← 返回笔记列表</a>
+    <h1>推荐 5 个提升开发效率的开源工具</h1>
+    <div class="article-meta">2025 年 2 月 · 约 4 分钟阅读</div>
+    <div class="article-body">
+
+      <p>独立开发者时间就是钱。这几个工具让我每天的开发效率提升了至少 30%，推荐给所有 solo dev。</p>
+
+      <h2>1. Warp — 终端</h2>
+      <p>macOS 上最好用的终端，没有之一。AI 命令补全、智能提示、分块输出，写命令基本不用查文档了。如果还没换掉系统自带终端的，强烈建议试试。</p>
+      <p><code>brew install --cask warp</code></p>
+
+      <h2>2. Claude / Cursor — AI 编程助手</h2>
+      <p>重度使用 Cursor（VS Code 的 AI 增强版），写代码和修 Bug 效率提升了不止一倍。特别适合：</p>
+      <ul>
+        <li>写重复性代码（CRUD、表单验证、API 路由）</li>
+        <li>改样式（把 「改一下这个按钮颜色」从 10 分钟变成 10 秒）</li>
+        <li>写测试和文档（AI 干这个比人仔细）</li>
+      </ul>
+
+      <h2>3. ngrok — 内网穿透</h2>
+      <p>本地开发的接口要给客户演示或者用微信调试？一行命令就把 localhost 暴露到公网。免费版够用。</p>
+      <p><code>ngrok http 3000</code></p>
+      <p>然后你就有了一个 `https://xxx.ngrok.io` 的公开地址，微信开发者工具里填这个就能调试。</p>
+
+      <h2>4. TablePlus — 数据库管理</h2>
+      <p>轻量级数据库管理工具，支持 MySQL、PostgreSQL、SQLite、Redis 等。启动快、界面清爽，比 Sequel Pro 和 Navicat 好用太多。</p>
+
+      <h2>5. Insomnia — API 调试</h2>
+      <p>比 Postman 轻量，界面更干净。支持 GraphQL、环境变量、代码生成。适合日常调试 API。</p>
+
+      <div class="highlight-box">
+        <strong>最值得的投资：</strong>如果你只能选一个，先装 Cursor 或 Warp。这两个每天用 8 小时以上，提升一点就是巨大的回报。
+      </div>
+
+      <p>你有用过什么好用的工具？欢迎来交流推荐 👋</p>
+
+    </div>
+    <div class="article-nav">
+      <a href="mini-program-guide.html">← 上一篇：微信小程序从零到上线</a>
+      <a href="../index.html#notes">返回笔记列表 →</a>
+    </div>
+  </div>
+</body>
+</html>

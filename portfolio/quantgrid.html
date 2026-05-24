@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuantGrid — A 股网格交易回测 · 永乐工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .detail { max-width: 760px; margin: 100px auto 60px; padding: 0 24px; }
+    .detail-back { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 14px; margin-bottom: 32px; transition: color 0.2s; }
+    .detail-back:hover { color: #64ffda; }
+    .detail-header { margin-bottom: 40px; }
+    .detail-tag { display: inline-block; padding: 4px 14px; border-radius: 12px; font-size: 12px; color: #64ffda; background: rgba(100,255,218,0.08); margin-bottom: 16px; }
+    .detail h1 { font-size: 36px; font-weight: 700; color: #fff; line-height: 1.25; margin-bottom: 12px; }
+    .detail-meta { font-size: 14px; color: rgba(255,255,255,0.25); margin-bottom: 24px; }
+    .detail-body { font-size: 16px; line-height: 1.9; color: rgba(255,255,255,0.65); }
+    .detail-body h2 { font-size: 22px; font-weight: 600; color: #fff; margin: 40px 0 16px; }
+    .detail-body h3 { font-size: 18px; font-weight: 600; color: #fff; margin: 28px 0 12px; }
+    .detail-body p { margin-bottom: 20px; }
+    .detail-body ul, .detail-body ol { margin: 16px 0; padding-left: 24px; }
+    .detail-body li { margin-bottom: 8px; }
+    .detail-body strong { color: #fff; }
+    .detail-body code { background: rgba(100,255,218,0.06); border: 1px solid rgba(100,255,218,0.1); padding: 2px 8px; border-radius: 4px; font-size: 14px; color: #64ffda; }
+    .detail-body pre { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; padding: 20px; margin: 20px 0; overflow-x: auto; }
+    .detail-body pre code { background: none; border: none; padding: 0; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; }
+    .detail-body .highlight-box { background: rgba(100,255,218,0.04); border: 1px solid rgba(100,255,218,0.08); border-left: 3px solid #64ffda; border-radius: 8px; padding: 20px 24px; margin: 24px 0; }
+    .detail-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .detail-nav a { font-size: 14px; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+    .detail-nav a:hover { color: #64ffda; }
+    .detail-github { color: #64ffda; font-size: 13px; text-decoration: none; margin-left: 12px; padding: 4px 12px; border: 1px solid rgba(100,255,218,0.2); border-radius: 20px; transition: all 0.2s; display: inline-block; }
+.detail-github:hover { background: rgba(100,255,218,0.06); border-color: #64ffda; }
+.tech-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .tech-grid span { padding: 4px 14px; border-radius: 10px; background: rgba(100,255,218,0.04); border: 1px solid rgba(100,255,218,0.08); font-size: 12px; color: rgba(255,255,255,0.5); }
+    .detail-img { width: 100%; border-radius: 16px; margin: 24px 0; border: 1px solid rgba(255,255,255,0.06); }
+  </style>
+</head>
+<body>
+  <div class="detail">
+    <a href="../index.html#portfolio" class="detail-back">← 返回作品集</a>
+
+    <div class="detail-header">
+      <div class="detail-tag">量化 · 金融</div>
+      <h1>QuantGrid — A 股网格交易回测</h1>
+      <div class="detail-meta">Python · Pandas · Matplotlib · 量化分析 · <a href="https://github.com/lizibin123/QuantGrid" target="_blank" class="detail-github">GitHub ↗</a></div>
+    </div>
+
+    <div class="detail-body">
+      <p>A 股和 ETF 网格策略回测系统。支持多种网格参数配置，自动计算收益率、最大回撤，生成可视化回测图表。</p>
+
+      <div class="highlight-box">
+        <strong>核心特性：</strong>输入股票代码和网格参数，自动回测历史表现，输出收益曲线和关键指标。
+      </div>
+
+      <!-- Real backtest chart from the project -->
+      <img src="../assets/grid_result.png" alt="QuantGrid 回测结果图表" class="detail-img">
+
+      <p style="font-size:13px; color:rgba(255,255,255,0.25); text-align:center;">真实回测输出：网格策略收益率曲线</p>
+
+      <h2>回测指标</h2>
+      <ul>
+        <li><strong>总收益率</strong> — 策略在整个回测期的累计收益</li>
+        <li><strong>年化收益率</strong> — 折合年化收益</li>
+        <li><strong>最大回撤</strong> — 策略最差情况下的亏损幅度</li>
+        <li><strong>交易次数</strong> — 网格触发买卖的总次数</li>
+        <li><strong>胜率</strong> — 盈利交易占比</li>
+      </ul>
+
+      <h2>可配置参数</h2>
+      <ul>
+        <li><strong>网格层数</strong> — 2~10 层可选</li>
+        <li><strong>网格间距</strong> — 等距 / 等比 / 自定义</li>
+        <li><strong>起始资金</strong> — 每格分配金额</li>
+        <li><strong>回测周期</strong> — 近 1 年 / 3 年 / 5 年</li>
+      </ul>
+
+      <div class="tech-grid">
+        <span>Python 3</span>
+        <span>Pandas</span>
+        <span>Matplotlib</span>
+        <span>NumPy</span>
+        <span>Akshare</span>
+        <span>量化分析</span>
+      </div>
+    </div>
+
+    <div class="detail-nav">
+      <a href="filebat.html">← 上一个：FileBat</a>
+      <a href="../index.html#portfolio">返回作品集 →</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>微信小程序从零到上线避坑指南 · 永乐工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .article { max-width: 720px; margin: 100px auto 60px; padding: 0 24px; }
+    .article-back { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 14px; margin-bottom: 40px; transition: color 0.2s; }
+    .article-back:hover { color: #64ffda; }
+    .article h1 { font-size: 32px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 12px; }
+    .article-meta { font-size: 14px; color: rgba(255,255,255,0.25); margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .article-body { font-size: 16px; line-height: 1.9; color: rgba(255,255,255,0.65); }
+    .article-body h2 { font-size: 22px; font-weight: 600; color: #fff; margin: 36px 0 16px; }
+    .article-body h3 { font-size: 18px; font-weight: 600; color: #fff; margin: 28px 0 12px; }
+    .article-body p { margin-bottom: 20px; }
+    .article-body ul, .article-body ol { margin: 16px 0; padding-left: 24px; }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: #fff; }
+    .article-body code { background: rgba(100,255,218,0.06); border: 1px solid rgba(100,255,218,0.1); padding: 2px 8px; border-radius: 4px; font-size: 14px; color: #64ffda; }
+    .article-body .highlight-box { background: rgba(100,255,218,0.04); border: 1px solid rgba(100,255,218,0.08); border-left: 3px solid #64ffda; border-radius: 8px; padding: 20px 24px; margin: 24px 0; }
+    .article-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .article-nav a { font-size: 14px; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+    .article-nav a:hover { color: #64ffda; }
+  </style>
+</head>
+<body>
+  <div class="article">
+    <a href="../index.html#notes" class="article-back">← 返回笔记列表</a>
+    <h1>微信小程序从零到上线避坑指南</h1>
+    <div class="article-meta">2025 年 3 月 · 约 7 分钟阅读</div>
+    <div class="article-body">
+
+      <p>做了十几个小程序从零到上线，踩过的坑比写过的代码还多。这篇记录最痛的几个，希望你能绕过去。</p>
+
+      <h2>一、注册阶段</h2>
+      <h3>坑 1：个人主体有很多限制</h3>
+      <p>个人小程序不能做支付、不能做直播、不能做社交类目。如果客户想做电商，必须用企业/个体工商户主体注册。提前确认清楚，不然开发完发现审核不过，白干。</p>
+
+      <h3>坑 2：类目审核材料提前准备</h3>
+      <p>某些类目（餐饮、教育、金融）需要额外资质证书。不是想上就能上。注册前先去微信官方文档查清楚所需材料。</p>
+
+      <h2>二、开发阶段</h2>
+      <h3>坑 3：云开发虽方便，但迁移坑爹</h3>
+      <p>微信云开发确实快，但一旦用了云数据库和云函数，以后想迁出非常麻烦。给客户做项目我建议用自建后端（Flask / Node.js），数据在客户自己手里，以后换服务商也方便。</p>
+
+      <h3>坑 4：体验版和正式版是两回事</h3>
+      <p>体验版跳过了一些审核限制，正式上线时才发现某些功能被拒。开发过程中定期用「上传代码 → 提交审核」流程测试，别拖到最后一天。</p>
+
+      <h3>坑 5：别用第三方模板</h3>
+      <p>市面上的小程序模板质量参差不齐，很多用 jQuery 或老框架写的，性能差、Bug 多、难扩展。从零写一个小程序其实没那么慢，可控性高得多。</p>
+
+      <h2>三、审核阶段</h2>
+      <h3>坑 6：审核玄学</h3>
+      <p>同样的代码，有时一次过，有时打回来三次。常见被拒原因：</p>
+      <ul>
+        <li><strong>类目不符</strong> — 你选的类目和实际功能对不上</li>
+        <li><strong>功能不完整</strong> — 测试账号进不去某个页面</li>
+        <li><strong>隐私协议缺失</strong> — 必须有用户协议和隐私政策页面</li>
+      </ul>
+      <p>建议：提交前用测试账号完整走一遍所有流程。</p>
+
+      <h2>四、上线后</h2>
+      <h3>坑 7：版本回退有限制</h3>
+      <p>上线后发现严重 Bug，微信不能直接回退到上一版本，只能重新提审。所以每次上线前多测测，关键功能做灰度发布。</p>
+
+      <h3>坑 8：数据统计要提前接入</h3>
+      <p>很多客户上线后才想起来要看数据。微信后台自带基础统计，但自定义事件分析需要提前在代码中埋点。建议开发时就接好。</p>
+
+      <div class="highlight-box">
+        <strong>一句话总结：</strong>小程序开发，70% 的时间花在开发上，30% 的时间和审核斗智斗勇。
+      </div>
+
+    </div>
+    <div class="article-nav">
+      <a href="pricing-guide.html">← 上一篇：个人开发者如何给自己定价</a>
+      <a href="dev-tools.html">下一篇：推荐 5 个开发效率工具 →</a>
+    </div>
+  </div>
+</body>
+</html>

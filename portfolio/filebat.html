@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FileBat — 文件批量处理工具 · 永乐工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .detail { max-width: 760px; margin: 100px auto 60px; padding: 0 24px; }
+    .detail-back { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 14px; margin-bottom: 32px; transition: color 0.2s; }
+    .detail-back:hover { color: #64ffda; }
+    .detail-header { margin-bottom: 40px; }
+    .detail-tag { display: inline-block; padding: 4px 14px; border-radius: 12px; font-size: 12px; color: #64ffda; background: rgba(100,255,218,0.08); margin-bottom: 16px; }
+    .detail h1 { font-size: 36px; font-weight: 700; color: #fff; line-height: 1.25; margin-bottom: 12px; }
+    .detail-meta { font-size: 14px; color: rgba(255,255,255,0.25); margin-bottom: 24px; }
+    .detail-body { font-size: 16px; line-height: 1.9; color: rgba(255,255,255,0.65); }
+    .detail-body h2 { font-size: 22px; font-weight: 600; color: #fff; margin: 40px 0 16px; }
+    .detail-body h3 { font-size: 18px; font-weight: 600; color: #fff; margin: 28px 0 12px; }
+    .detail-body p { margin-bottom: 20px; }
+    .detail-body ul, .detail-body ol { margin: 16px 0; padding-left: 24px; }
+    .detail-body li { margin-bottom: 8px; }
+    .detail-body strong { color: #fff; }
+    .detail-body code { background: rgba(100,255,218,0.06); border: 1px solid rgba(100,255,218,0.1); padding: 2px 8px; border-radius: 4px; font-size: 14px; color: #64ffda; }
+    .detail-body pre { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; padding: 20px; margin: 20px 0; overflow-x: auto; }
+    .detail-body pre code { background: none; border: none; padding: 0; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; }
+    .detail-body .highlight-box { background: rgba(100,255,218,0.04); border: 1px solid rgba(100,255,218,0.08); border-left: 3px solid #64ffda; border-radius: 8px; padding: 20px 24px; margin: 24px 0; }
+    .detail-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .detail-nav a { font-size: 14px; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+    .detail-nav a:hover { color: #64ffda; }
+    .detail-github { color: #64ffda; font-size: 13px; text-decoration: none; margin-left: 12px; padding: 4px 12px; border: 1px solid rgba(100,255,218,0.2); border-radius: 20px; transition: all 0.2s; display: inline-block; }
+.detail-github:hover { background: rgba(100,255,218,0.06); border-color: #64ffda; }
+.tech-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .tech-grid span { padding: 4px 14px; border-radius: 10px; background: rgba(100,255,218,0.04); border: 1px solid rgba(100,255,218,0.08); font-size: 12px; color: rgba(255,255,255,0.5); }
+  </style>
+</head>
+<body>
+  <div class="detail">
+    <a href="../index.html#portfolio" class="detail-back">← 返回作品集</a>
+
+    <div class="detail-header">
+      <div class="detail-tag">效率 · 工具</div>
+      <h1>FileBat — 文件批量处理工具</h1>
+      <div class="detail-meta">Python · Rich · 跨平台 · <a href="https://github.com/lizibin123/FileBat" target="_blank" class="detail-github">GitHub ↗</a></div>
+    </div>
+
+    <div class="detail-body">
+      <p>终端里的文件批量处理神器。重命名、复制、移动，支持预览和撤销。Rich 终端界面，操作直观。</p>
+
+      <div class="highlight-box">
+        <strong>核心特性：</strong>操作前先预览效果，确认无误再执行。误操作还能一键撤销，告别手滑悲剧。
+      </div>
+
+      <h2>支持的操作</h2>
+      <h3>📝 批量重命名</h3>
+      <ul>
+        <li>添加前缀 / 后缀</li>
+        <li>查找替换（支持正则）</li>
+        <li>按序号编号（001, 002, ...）</li>
+        <li>实时预览重命名效果</li>
+      </ul>
+
+      <h3>📁 批量复制 / 移动</h3>
+      <ul>
+        <li>按扩展名筛选（如只处理 .jpg / .pdf）</li>
+        <li>复制或移动到指定目录</li>
+        <li>保留/重组目录结构</li>
+      </ul>
+
+      <h3>↩️ 撤销</h3>
+      <ul>
+        <li>误操作一键回退</li>
+        <li>支持多次撤销</li>
+      </ul>
+
+      <h2>交互菜单</h2>
+      <pre><code>选择操作:
+  [1] 📝 批量重命名
+  [2] 📁 批量复制/移动
+  [3] ↩️  撤销上一步
+  [4] 📂 切换文件夹
+  [5] ℹ️  查看状态
+  [6] 🚪 退出</code></pre>
+
+      <div class="tech-grid">
+        <span>Python 3</span>
+        <span>Rich</span>
+        <span>os / shutil</span>
+        <span>跨平台</span>
+      </div>
+    </div>
+
+    <div class="detail-nav">
+      <a href="clipbar.html">← 上一个：ClipBar</a>
+      <a href="quantgrid.html">下一个：QuantGrid →</a>
+    </div>
+  </div>
+</body>
+</html>
