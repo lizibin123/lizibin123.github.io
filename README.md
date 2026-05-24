@@ -32,7 +32,7 @@
 
 ```bash
 cd /Users/mac/.openclaw/workspace/个人官网
-EMAIL_USER=lizibin123123@outlook.com EMAIL_PASS=你的邮箱密码 node server.js
+EMAIL_USER=你的邮箱 EMAIL_PASS=你的邮箱密码 node server.js
 ```
 
 #### 如果用 QQ 邮箱
@@ -42,7 +42,7 @@ SMTP_HOST=smtp.qq.com SMTP_PORT=465 SMTP_SECURE=true EMAIL_USER=你的QQ号@qq.c
 > QQ 邮箱请到「设置 → 账户 → 生成授权码」获取，不要用登录密码。
 
 服务启动后在终端保持运行，收到新需求会自动：
-1. ✅ 发送邮件到 `lizibin123123@outlook.com`
+1. ✅ 发送邮件到 `你的邮箱`
 2. ✅ 保存到 `submissions/` 目录做备份
 3. ✅ 终端打印提示
 
