@@ -134,12 +134,12 @@ if (form) {
     submitBtn.textContent = '提交中...';
 
     // 方案一：提交到 API（部署到 Vercel 时用同一域名下的 /api/submit）
-    const API_URL = '/api/submit';
+    const API_URL = 'https://formspree.io/f/xykvdgqp';
 
     try {
       const response = await fetch(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({ name, contact, message })
       });
 
