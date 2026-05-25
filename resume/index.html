@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于我 · 个人简历 · 永乐工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .detail { max-width: 820px; margin: 100px auto 60px; padding: 0 24px; }
+    .detail-back { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 14px; margin-bottom: 40px; transition: color 0.2s; }
+    .detail-back:hover { color: #64ffda; }
+
+    /* ===== Resume Header ===== */
+    .resume-header {
+      display: flex; align-items: center; gap: 32px;
+      margin-bottom: 48px;
+      padding: 32px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 20px;
+    }
+    .resume-avatar {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #64ffda, #48c6ef);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 42px;
+      color: #0a0a0f;
+    }
+    .resume-name { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .resume-title { font-size: 16px; color: #64ffda; margin-bottom: 12px; }
+    .resume-contact {
+      display: flex; flex-wrap: wrap; gap: 8px 20px;
+      font-size: 13px; color: rgba(255,255,255,0.4);
+    }
+    .resume-contact a { color: rgba(255,255,255,0.5); transition: color 0.2s; }
+    .resume-contact a:hover { color: #64ffda; }
+
+    /* ===== Resume Sections ===== */
+    .resume-section { margin-bottom: 40px; }
+    .resume-section:last-child { margin-bottom: 0; }
+    .resume-section-title {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .resume-section-bar {
+      width: 3px; height: 18px;
+      background: #64ffda;
+      border-radius: 2px;
+    }
+    .resume-section-title h2 {
+      font-size: 20px; font-weight: 700; color: #fff;
+    }
+    .resume-section-title span {
+      font-size: 11px; color: rgba(255,255,255,0.2);
+      letter-spacing: 1px;
+    }
+
+    /* ===== Info Grid ===== */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      padding: 24px;
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.03);
+      border-radius: 16px;
+    }
+    .info-item { display: flex; gap: 6px; font-size: 14px; }
+    .info-key { color: rgba(255,255,255,0.3); min-width: 60px; }
+    .info-val { color: rgba(255,255,255,0.7); }
+
+    /* ===== Education Card ===== */
+    .edu-card {
+      padding: 24px;
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.03);
+      border-radius: 16px;
+    }
+    .edu-school { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+    .edu-meta { font-size: 13px; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
+    .edu-detail { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+    /* ===== Project Cards ===== */
+    .project-card {
+      padding: 24px;
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.03);
+      border-radius: 16px;
+      margin-bottom: 14px;
+      transition: all 0.25s;
+    }
+    .project-card:last-child { margin-bottom: 0; }
+    .project-card:hover { border-color: rgba(100,255,218,0.1); }
+    .project-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .project-name { font-size: 16px; font-weight: 600; color: #fff; }
+    .project-role { font-size: 12px; color: rgba(255,255,255,0.25); }
+    .project-tech {
+      display: inline-flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 12px;
+    }
+    .project-tech span {
+      padding: 3px 10px;
+      border-radius: 10px;
+      background: rgba(100,255,218,0.06);
+      border: 1px solid rgba(100,255,218,0.1);
+      font-size: 11px;
+      color: #64ffda;
+    }
+    .project-desc {
+      font-size: 14px; color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+    }
+    .project-link {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 12px; color: #64ffda;
+    }
+    .project-link:hover { text-decoration: underline; }
+
+    /* ===== Skills ===== */
+    .skills-grid {
+      padding: 24px;
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.03);
+      border-radius: 16px;
+    }
+    .skill-row {
+      display: flex; gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+    }
+    .skill-row:last-child { border-bottom: none; }
+    .skill-label {
+      min-width: 70px;
+      font-size: 13px; font-weight: 600; color: #64ffda;
+      flex-shrink: 0;
+    }
+    .skill-content { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    /* ===== Self Eval ===== */
+    .eval-box {
+      padding: 24px;
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.03);
+      border-radius: 16px;
+      font-size: 14px; color: rgba(255,255,255,0.5);
+      line-height: 1.9;
+    }
+
+    /* ===== Photo ===== */
+    .photo-img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
+
+    @media (max-width: 640px) {
+      .resume-header { flex-direction: column; text-align: center; }
+      .resume-contact { justify-content: center; }
+      .info-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Light Orbs -->
+  <div class="light-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+    <div class="orb orb-5"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo">永乐工作室 <span class="logo-sub">🐉</span></a>
+      <div class="nav-links">
+        <a href="../index.html#about">关于</a>
+        <a href="../index.html#portfolio">作品集</a>
+        <a href="../index.html#notes">笔记</a>
+        <a href="../index.html#contact">联系</a>
+        <a href="../team/">开发团队</a>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+    </div>
+  </nav>
+
+  <div class="detail">
+    <a href="../index.html" class="detail-back">← 返回首页</a>
+
+    <!-- ===== Header ===== -->
+    <div class="resume-header">
+      <div class="resume-avatar" style="background:url(../assets/lizibin-photo.png) center/cover; border:3px solid #64ffda;"></div>
+      <div>
+        <div class="resume-name">李子彬</div>
+        <div class="resume-title">Java 后端开发工程师 · 全栈开发</div>
+        <div class="resume-contact">
+          <span>📞 17674735207</span>
+          <span>✉ lizibin123123@outlook.com</span>
+          <a href="https://github.com/lizibin123" target="_blank">🐙 github.com/lizibin123</a>
+          <a href="https://lizibin123.github.io" target="_blank">🌐 lizibin123.github.io</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Basic Info ===== -->
+    <div class="resume-section">
+      <div class="resume-section-title">
+        <div class="resume-section-bar"></div>
+        <h2>基本信息</h2>
+        <span>BASIC INFO</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><span class="info-key">出生年月</span><span class="info-val">2003.02</span></div>
+        <div class="info-item"><span class="info-key">民族</span><span class="info-val">汉</span></div>
+        <div class="info-item"><span class="info-key">政治面貌</span><span class="info-val">共青团员</span></div>
+        <div class="info-item"><span class="info-key">电话</span><span class="info-val">17674735207</span></div>
+        <div class="info-item"><span class="info-key">邮箱</span><span class="info-val">lizibin123123@outlook.com</span></div>
+        <div class="info-item"><span class="info-key">学历</span><span class="info-val">本科</span></div>
+        <div class="info-item"><span class="info-key">住址</span><span class="info-val">湖南省衡阳市</span></div>
+        <div class="info-item"><span class="info-key">毕业院校</span><span class="info-val">防灾科技学院</span></div>
+        <div class="info-item"><span class="info-key">求职意向</span><span class="info-val">后端软件开发工程师</span></div>
+      </div>
+    </div>
+
+    <!-- ===== Education ===== -->
+    <div class="resume-section">
+      <div class="resume-section-title">
+        <div class="resume-section-bar"></div>
+        <h2>教育背景</h2>
+        <span>EDUCATION</span>
+      </div>
+      <div class="edu-card">
+        <div class="edu-school">防灾科技学院</div>
+        <div class="edu-meta">2021.09 - 2025.06  ·  计算机科学与技术  ·  本科  ·  GPA: 3.04/4.0</div>
+        <div class="edu-detail">
+          主修课程：Java程序设计、C++、数据结构、操作系统、计算机网络、计算机组成原理、云平台部署
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Projects ===== -->
+    <div class="resume-section">
+      <div class="resume-section-title">
+        <div class="resume-section-bar"></div>
+        <h2>项目经历</h2>
+        <span>PROJECTS</span>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">学员智能管理系统</span>
+          <span class="project-role">后端开发</span>
+        </div>
+        <div class="project-tech">
+          <span>SpringBoot</span><span>MyBatisPlus</span><span>Vue</span><span>MySQL</span>
+        </div>
+        <div class="project-desc">
+          基于 SpringBoot 研发的内部管理系统，实现部门人员职责分配、学员信息管理、成绩发布与数据统计。负责后端全部业务逻辑开发，实现 RESTful API 设计、JWT 认证鉴权及数据库表设计。
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">QuantGrid — A股网格交易回测系统</span>
+          <span class="project-role">独立开发</span>
+        </div>
+        <div class="project-tech">
+          <span>Python</span><span>Pandas</span><span>Matplotlib</span><span>AkShare</span>
+        </div>
+        <div class="project-desc">
+          A股与ETF网格策略回测系统，支持多参数配置（网格层数、间距、周期），自动计算总收益率、年化收益率、最大回撤等关键指标，生成可视化回测图表。
+        </div>
+        <a href="https://github.com/lizibin123/QuantGrid" target="_blank" class="project-link">→ github.com/lizibin123/QuantGrid</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <span class="project-name">AIChat — 终端AI助手</span>
+          <span class="project-role">独立开发</span>
+        </div>
+        <div class="project-tech">
+          <span>Python</span><span>httpx</span><span>SSE</span><span>Rich</span>
+        </div>
+        <div class="project-desc">
+          命令行 AI 对话工具，支持 DeepSeek 与 OpenAI 多模型切换、流式打字机效果、对话历史保存与恢复、彩色 Markdown 终端渲染。
+        </div>
+        <a href="https://github.com/lizibin123/AIChat" target="_blank" class="project-link">→ github.com/lizibin123/AIChat</a>
+      </div>
+    </div>
+
+    <!-- ===== Skills ===== -->
+    <div class="resume-section">
+      <div class="resume-section-title">
+        <div class="resume-section-bar"></div>
+        <h2>技术栈</h2>
+        <span>SKILLS</span>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-row">
+          <span class="skill-label">后端</span>
+          <span class="skill-content">JavaSE（多线程/IO/反射/网络编程）、SpringBoot、SpringMVC、MyBatis、JPA</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">数据库</span>
+          <span class="skill-content">MySQL（表设计/索引优化/SQL调优）、MongoDB</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">工具与部署</span>
+          <span class="skill-content">Git、Maven、IDEA、Postman、Swagger、Linux、Nginx（反向代理/负载均衡）</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">前端与测试</span>
+          <span class="skill-content">Vue2、HTML/JavaScript、Selenium + Python Requests 接口自动化测试</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">安全与认证</span>
+          <span class="skill-content">JWT、Session 认证授权、接口鉴权</span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">其他</span>
+          <span class="skill-content">Python 开发、GitHub Pages 部署、RESTful API 设计</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Self Evaluation ===== -->
+    <div class="resume-section">
+      <div class="resume-section-title">
+        <div class="resume-section-bar"></div>
+        <h2>自我评价</h2>
+        <span>ABOUT ME</span>
+      </div>
+      <div class="eval-box">
+        学习能力强，能快速上手项目开发任务，具备独立思考能力。工作中遇到难题会第一时间寻求指导，确保项目进度不受影响。技术选型务实，不盲从热点，注重代码质量与交付效率。有独立开源项目经验，熟悉从需求分析到上线部署的全流程。
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">永乐工作室 🐉 · 全栈开发</div>
+        <div class="footer-links">
+          <a href="../index.html#about">关于</a>
+          <a href="../index.html#portfolio">作品集</a>
+          <a href="../index.html#notes">笔记</a>
+          <a href="../team/">开发团队</a>
+          <a href="../index.html#contact">联系</a>
+        </div>
+        <div class="footer-copy">© 2025 永乐工作室 · 用代码解决问题</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/main.js"></script>
+</body>
+</html>

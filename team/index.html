@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>开发团队 · 永乐工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .detail { max-width: 900px; margin: 100px auto 60px; padding: 0 24px; }
+
+    /* ===== Team Header ===== */
+    .team-header { text-align: center; margin-bottom: 60px; }
+    .team-header h1 { font-size: clamp(32px,5vw,44px); font-weight:700; color:#fff; margin-bottom:12px; }
+    .team-header p { font-size:16px; color:rgba(255,255,255,0.4); line-height:1.7; }
+
+    /* ===== Team Grid ===== */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
+      gap: 24px;
+      justify-content: center;
+    }
+    .team-card {
+      display: block;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: all 0.3s;
+      color: inherit;
+      text-decoration: none;
+    }
+    .team-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(100,255,218,0.15);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+
+    .team-avatar {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, #64ffda, #48c6ef);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; color: #0a0a0f;
+    }
+    .team-card:hover .team-avatar { border: 3px solid #64ffda; }
+
+    .team-name { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .team-role { font-size: 13px; color: #64ffda; margin-bottom: 12px; }
+    .team-bio { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.6; }
+
+    .team-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 14px; }
+    .team-tags span {
+      padding: 3px 10px; border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 11px; color: rgba(255,255,255,0.35);
+    }
+
+    .photo-bg { background: url(../assets/lizibin-photo.png) center/cover !important; }
+  </style>
+</head>
+<body>
+
+  <div class="light-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+    <div class="orb orb-5"></div>
+  </div>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo">永乐工作室 <span class="logo-sub">🐉</span></a>
+      <div class="nav-links">
+        <a href="../index.html#about">关于</a>
+        <a href="../index.html#portfolio">作品集</a>
+        <a href="../index.html#notes">笔记</a>
+        <a href="index.html" style="color:#64ffda;">开发团队</a>
+        <a href="../index.html#contact">联系</a>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+    </div>
+  </nav>
+
+  <div class="detail">
+    <a href="../index.html" class="detail-back">← 返回首页</a>
+
+    <div class="team-header">
+      <h1>🛠️ 开发团队</h1>
+      <p>永乐工作室的核心成员，各有所长，靠谱交付</p>
+    </div>
+
+    <div class="team-grid">
+
+      <a href="../resume/" class="team-card">
+        <div class="team-avatar photo-bg"></div>
+        <div class="team-name">李子彬</div>
+        <div class="team-role">全栈开发 · 团队负责人</div>
+        <div class="team-bio">
+          Java 后端出身，精通 SpringBoot 生态。擅长小程序、网站全栈开发与系统架构设计。独立接单经验丰富。
+        </div>
+        <div class="team-tags">
+          <span>Java</span><span>SpringBoot</span><span>Vue</span><span>Python</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">永乐工作室 🐉 · 全栈开发</div>
+        <div class="footer-links">
+          <a href="../index.html#about">关于</a>
+          <a href="../index.html#portfolio">作品集</a>
+          <a href="../index.html#notes">笔记</a>
+          <a href="index.html">开发团队</a>
+          <a href="../index.html#contact">联系</a>
+        </div>
+        <div class="footer-copy">© 2025 永乐工作室 · 用代码解决问题</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/main.js"></script>
+</body>
+</html>
