@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpringBoot RESTful API 实战 · 永乐工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .article { max-width: 720px; margin: 100px auto 60px; padding: 0 24px; position: relative; z-index: 1; }
+    .article-back { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 14px; margin-bottom: 40px; transition: color 0.2s; }
+    .article-back:hover { color: #64ffda; }
+    .article h1 { font-size: 32px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 12px; }
+    .article-meta { font-size: 14px; color: rgba(255,255,255,0.25); margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .article-body { font-size: 16px; line-height: 1.9; color: rgba(255,255,255,0.65); }
+    .article-body h2 { font-size: 22px; font-weight: 600; color: #fff; margin: 36px 0 16px; }
+    .article-body h3 { font-size: 18px; font-weight: 600; color: #fff; margin: 28px 0 12px; }
+    .article-body p { margin-bottom: 20px; }
+    .article-body ul, .article-body ol { margin: 16px 0; padding-left: 24px; }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: #fff; }
+    .article-body code { background: rgba(100,255,218,0.06); border: 1px solid rgba(100,255,218,0.1); padding: 2px 8px; border-radius: 4px; font-size: 14px; color: #64ffda; }
+    .article-body pre { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; padding: 20px; margin: 20px 0; overflow-x: auto; }
+    .article-body pre code { background: none; border: none; padding: 0; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; }
+    .article-body .highlight-box { background: rgba(100,255,218,0.04); border: 1px solid rgba(100,255,218,0.08); border-left: 3px solid #64ffda; border-radius: 8px; padding: 20px 24px; margin: 24px 0; }
+    .article-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .article-nav a { font-size: 14px; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+    .article-nav a:hover { color: #64ffda; }
+  </style>
+</head>
+<body>
+<div class="light-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div><div class="orb orb-5"></div></div>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">永乐工作室 <span class="logo-sub">🐉</span></a>
+    <div class="nav-links">
+      <a href="../index.html#about">关于</a><a href="../index.html#portfolio">作品集</a><a href="../index.html#notes">笔记</a><a href="../team/">开发团队</a><a href="../index.html#contact">联系</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+  </div>
+</nav>
+<div class="article">
+  <a href="index.html" class="article-back">← 返回笔记列表</a>
+  <h1>SpringBoot + MyBatis 实战：从零搭建 RESTful API</h1>
+  <div class="article-meta">2026 年 5 月 · 约 5 分钟阅读</div>
+  <div class="article-body">
+
+    <p>这篇文章记录了我用 SpringBoot + MyBatis 从零搭建 RESTful API 的完整流程，从项目初始化到接口联调，适合刚入门的后端开发者参考。</p>
+
+    <h2>项目初始化</h2>
+    <p>用 Spring Initializr 生成项目，选三个核心依赖：</p>
+    <pre><code>Spring Web        → RESTful API 支持
+MyBatis Framework → 数据库 ORM
+MySQL Driver      → 数据库连接</code></pre>
+    <p>推荐加上 Lombok 和 Spring Boot DevTools，前者减少样板代码，后者提升开发体验。</p>
+
+    <h2>项目结构</h2>
+    <pre><code>src/main/java/com/example/demo/
+├── controller/   → 接收请求，返回响应
+├── service/      → 业务逻辑层
+├── mapper/       → 数据库映射接口
+├── entity/       → 数据实体类
+└── config/       → 配置类（CORS、拦截器等）</code></pre>
+    <p>这个分层结构是后端项目最常用的模式，清晰、好维护、团队协作友好。</p>
+
+    <div class="highlight-box">
+      <strong>原则：</strong>Controller 只负责参数校验和结果返回，Service 做业务逻辑，Mapper 只和数据库打交道。各层各司其职，不要混在一起。
+    </div>
+
+    <h2>数据库表设计</h2>
+    <p>以一个学员管理系统为例，核心表设计：</p>
+    <pre><code>CREATE TABLE student (
+  id       BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name     VARCHAR(50)  NOT NULL,
+  class_id BIGINT       NOT NULL,
+  phone    VARCHAR(20),
+  score    DECIMAL(5,2),
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE class (
+  id   BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL
+);</code></pre>
+    <p>建表时注意几个要点：主键用 BIGINT 自增、时间字段设默认值、外键用逻辑关联（代码层保证）而不是物理外键。</p>
+
+    <h2>MyBatis 配置与使用</h2>
+    <p>在 <code>application.yml</code> 中配置数据源：</p>
+    <pre><code>spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo
+    username: root
+    password: your_password
+  mybatis:
+    mapper-locations: classpath:mapper/*.xml
+    type-aliases-package: com.example.demo.entity</code></pre>
+    <p>Mapper 接口示例：</p>
+    <pre><code>@Mapper
+public interface StudentMapper {
+    List&lt;Student&gt; findAll();
+    Student findById(Long id);
+    int insert(Student student);
+    int update(Student student);
+    int deleteById(Long id);
+}</code></pre>
+    <p>对应的 XML 文件放在 <code>resources/mapper/</code> 目录下。</p>
+
+    <h2>编写 RESTful API</h2>
+    <p>一个完整的 CRUD Controller 长这样：</p>
+    <pre><code>@RestController
+@RequestMapping("/api/students")
+public class StudentController {
+
+    @Autowired
+    private StudentService studentService;
+
+    @GetMapping
+    public Result list() {
+        return Result.success(studentService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public Result get(@PathVariable Long id) {
+        return Result.success(studentService.findById(id));
+    }
+
+    @PostMapping
+    public Result add(@RequestBody Student student) {
+        studentService.insert(student);
+        return Result.success(null);
+    }
+
+    @PutMapping("/{id}")
+    public Result update(@PathVariable Long id,
+                         @RequestBody Student student) {
+        student.setId(id);
+        studentService.update(student);
+        return Result.success(null);
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Long id) {
+        studentService.deleteById(id);
+        return Result.success(null);
+    }
+}</code></pre>
+
+    <h2>统一返回值与异常处理</h2>
+    <p>建议定义一个统一的 Result 类，所有接口返回同样的格式：</p>
+    <pre><code>public class Result&lt;T&gt; {
+    private int code;        // 200 成功
+    private String message;  // 提示信息
+    private T data;          // 实际数据
+    // 省略 getter/setter
+    public static &lt;T&gt; Result&lt;T&gt; success(T data) {
+        return new Result&lt;&gt;(200, "success", data);
+    }
+    public static &lt;T&gt; Result&lt;T&gt; error(int code, String msg) {
+        return new Result&lt;&gt;(code, msg, null);
+    }
+}</code></pre>
+    <p>再用 <code>@ControllerAdvice</code> 统一处理异常，前端拿到的永远是结构一致的 JSON，对接体验好很多。</p>
+
+    <div class="highlight-box">
+      <strong>踩坑提醒：</strong>记得配 CORS！前后端分离开发时，浏览器会拦截跨域请求。加一个 CorsConfig 就能解决，两三行代码的事。
+    </div>
+
+    <h2>总结</h2>
+    <p>这套 SpringBoot + MyBatis + RESTful API 的组合是目前 Java 后端最主流的技术栈之一。从项目初始化到接口联调，整个流程走一遍大概需要 2-3 小时。跑通之后，后面加新接口就是复制粘贴改业务逻辑的事。</p>
+    <p>下一篇我会写常用工具类的封装和接口性能优化，敬请关注。</p>
+
+  </div>
+  <div class="article-nav">
+    <a href="index.html">← 返回列表</a>
+    <a href="quantgrid-dev-story.html">下一篇：QuantGrid 开发复盘 →</a>
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">永乐工作室 🐉 · 全栈开发</div>
+      <div class="footer-links">
+        <a href="../index.html#about">关于</a><a href="../index.html#portfolio">作品集</a><a href="../index.html#notes">笔记</a><a href="../team/">开发团队</a><a href="../index.html#contact">联系</a>
+      </div>
+      <div class="footer-copy">© 2025 永乐工作室 · 用代码解决问题</div>
+    </div>
+  </div>
+</footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>

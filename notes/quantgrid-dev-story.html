@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuantGrid 开发复盘 · 永乐工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .article { max-width: 720px; margin: 100px auto 60px; padding: 0 24px; position: relative; z-index: 1; }
+    .article-back { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.35); font-size: 14px; margin-bottom: 40px; transition: color 0.2s; }
+    .article-back:hover { color: #64ffda; }
+    .article h1 { font-size: 32px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 12px; }
+    .article-meta { font-size: 14px; color: rgba(255,255,255,0.25); margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .article-body { font-size: 16px; line-height: 1.9; color: rgba(255,255,255,0.65); }
+    .article-body h2 { font-size: 22px; font-weight: 600; color: #fff; margin: 36px 0 16px; }
+    .article-body h3 { font-size: 18px; font-weight: 600; color: #fff; margin: 28px 0 12px; }
+    .article-body p { margin-bottom: 20px; }
+    .article-body ul, .article-body ol { margin: 16px 0; padding-left: 24px; }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: #fff; }
+    .article-body code { background: rgba(100,255,218,0.06); border: 1px solid rgba(100,255,218,0.1); padding: 2px 8px; border-radius: 4px; font-size: 14px; color: #64ffda; }
+    .article-body pre { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; padding: 20px; margin: 20px 0; overflow-x: auto; }
+    .article-body pre code { background: none; border: none; padding: 0; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; }
+    .article-body .highlight-box { background: rgba(100,255,218,0.04); border: 1px solid rgba(100,255,218,0.08); border-left: 3px solid #64ffda; border-radius: 8px; padding: 20px 24px; margin: 24px 0; }
+    .article-nav { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .article-nav a { font-size: 14px; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+    .article-nav a:hover { color: #64ffda; }
+  </style>
+</head>
+<body>
+<div class="light-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div><div class="orb orb-5"></div></div>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">永乐工作室 <span class="logo-sub">🐉</span></a>
+    <div class="nav-links">
+      <a href="../index.html#about">关于</a><a href="../index.html#portfolio">作品集</a><a href="../index.html#notes">笔记</a><a href="../team/">开发团队</a><a href="../index.html#contact">联系</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+  </div>
+</nav>
+<div class="article">
+  <a href="index.html" class="article-back">← 返回笔记列表</a>
+  <h1>QuantGrid 开发复盘：我给 A 股写了个网格回测工具</h1>
+  <div class="article-meta">2026 年 5 月 · 约 4 分钟阅读</div>
+  <div class="article-body">
+
+    <p>前段时间花了两天时间写了一个 A 股网格交易回测工具——QuantGrid。这篇文章复盘一下从想法到落地的全过程和踩的坑。</p>
+
+    <h2>为什么做这个</h2>
+    <p>我自己做网格交易有几个月了，但一直没找到好用的回测工具。市面上要么收费，要么太复杂。就想自己写一个：输入股票代码和网格参数，能快速看到历史表现就行。</p>
+    <p>说白了就是一个需求驱动的小工具，够用就好。</p>
+
+    <h2>技术选型</h2>
+    <ul>
+      <li><strong>Python 3</strong> — 数据分析和回测的首选语言</li>
+      <li><strong>Pandas</strong> — 数据处理，核心计算全靠它</li>
+      <li><strong>Matplotlib</strong> — 出图表，直观看收益曲线</li>
+      <li><strong>Akshare</strong> — 免费获取 A 股历史行情数据</li>
+      <li><strong>NumPy</strong> — 数值计算辅助</li>
+    </ul>
+
+    <div class="highlight-box">
+      <strong>数据来源：</strong>Akshare 是一个开源的 A 股数据接口库，免费、无需注册，直接 pip install 就能用。数据质量够回测用。
+    </div>
+
+    <h2>网格策略核心逻辑</h2>
+    <p>网格交易的核心思想很简单：设定一个价格区间，把资金分成若干份，每跌一格买入、每涨一格卖出。反复赚取波段差价。</p>
+    <p>QuantGrid 的实现流程：</p>
+    <pre><code>1. 获取历史行情数据（日 K）
+2. 设定网格参数（层数、间距、初始资金）
+3. 逐日模拟交易
+   → 价格跌破网格线 → 买入
+   → 价格涨破网格线 → 卖出
+4. 计算最终收益、最大回撤、交易次数
+5. 画出资金曲线图</code></pre>
+
+    <h2>关键代码片段</h2>
+    <p>网格模拟的核心逻辑大概 30 行：</p>
+    <pre><code>def grid_backtest(df, grid_levels, grid_spacing, initial_capital):
+    capital = initial_capital
+    holdings = 0
+    per_grid = capital / grid_levels
+    history = []
+
+    for price in df['close']:
+        for level in range(grid_levels):
+            buy_price = initial_price * (1 - (level+1) * grid_spacing)
+            sell_price = initial_price * (1 + (level+1) * grid_spacing)
+
+            if price &lt;= buy_price and capital &gt;= per_grid:
+                holdings += per_grid / price
+                capital -= per_grid
+
+            elif price &gt;= sell_price and holdings &gt; 0:
+                sell_units = holdings / grid_levels
+                capital += sell_units * price
+                holdings -= sell_units
+
+        portfolio_value = capital + holdings * price
+        history.append(portfolio_value)
+
+    return history</code></pre>
+
+    <h2>踩坑记录</h2>
+    <ul>
+      <li><strong>除零错误</strong> — 初始价格为 0 的时候没做判断，翻车了。加了个 <code>if initial_price == 0: continue</code></li>
+      <li><strong>数据漂移</strong> — 前复权和后复权的数据差异很大。回测统一用前复权，策略参数才不会失真</li>
+      <li><strong>手续费</strong> — 一开始没算印花税和佣金，回测收益率虚高。后来加了个可配置的费率参数</li>
+    </ul>
+
+    <h2>回测结果示例</h2>
+    <p>用某 ETF 近 3 年数据回测，2 层网格、间距 3%、起始资金 10 万：</p>
+    <pre><code>总收益率:   +12.3%
+年化收益率:  +3.9%
+最大回撤:   -5.1%
+交易次数:   47 次</code></pre>
+    <p>同期沪深 300 涨幅约 -8%，网格策略在震荡市中确实有效。但在单边牛市中会踏空，单边熊市中会满仓套牢。没有完美的策略，只有适合当前市场的策略。</p>
+
+    <h2>开源与后续</h2>
+    <p>QuantGrid 已经开源在 GitHub：<a href="https://github.com/lizibin123/QuantGrid" target="_blank" style="color:#64ffda;">github.com/lizibin123/QuantGrid</a>。后续打算加入多标的回测和参数优化功能。</p>
+    <p>量化交易入门门槛其实不高，Python + Pandas 能解决 80% 的问题。写回测工具本身也是很好的编程练习，推荐大家试试。</p>
+
+  </div>
+  <div class="article-nav">
+    <a href="springboot-rest-api.html">← 上一篇：SpringBoot RESTful API</a>
+    <a href="github-pages-brand.html">下一篇：GitHub Pages 搭建个人品牌 →</a>
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">永乐工作室 🐉 · 全栈开发</div>
+      <div class="footer-links">
+        <a href="../index.html#about">关于</a><a href="../index.html#portfolio">作品集</a><a href="../index.html#notes">笔记</a><a href="../team/">开发团队</a><a href="../index.html#contact">联系</a>
+      </div>
+      <div class="footer-copy">© 2025 永乐工作室 · 用代码解决问题</div>
+    </div>
+  </div>
+</footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>
