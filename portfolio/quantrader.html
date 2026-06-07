@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A 股全自动量化交易系统 · 永乐工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .project-page { max-width: 760px; margin: 0 auto; padding: 120px 24px 80px; position: relative; z-index: 1; }
+    .project-page .back-link { display:inline-flex; align-items:center; gap:8px; color:rgba(255,255,255,0.35); font-size:14px; margin-bottom:32px; transition:color 0.2s; position:relative; }
+    .project-page .back-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:#64ffda; transition:width 0.25s; }
+    .project-page .back-link:hover { color:#64ffda; }
+    .project-page .back-link:hover::after { width:100%; }
+
+    .project-header { margin-bottom:32px; }
+    .project-header .tag {
+      display:inline-block; padding:4px 12px; border-radius:12px; font-size:12px; color:#64ffda; background:rgba(100,255,218,0.08); margin-bottom:16px;
+    }
+    .project-header h1 { font-size:clamp(28px,4vw,36px); font-weight:700; color:#fff; line-height:1.3; margin-bottom:8px; }
+    .project-header .sub { font-size:15px; color:rgba(255,255,255,0.4); }
+    .project-tech-bar {
+      display:flex; flex-wrap:wrap; gap:8px; margin:20px 0;
+    }
+    .project-tech-bar span {
+      padding:4px 14px; border-radius:14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);
+      font-size:12px; color:rgba(255,255,255,0.5);
+    }
+
+    .project-hero {
+      background: linear-gradient(135deg, rgba(0,40,30,0.3), rgba(10,20,40,0.3));
+      border:1px solid rgba(100,255,218,0.08);
+      border-radius:16px; padding:28px 32px; margin-bottom:40px;
+      display:grid; grid-template-columns:1fr 1fr; gap:24px;
+    }
+    .project-hero .stat-item { text-align:center; }
+    .project-hero .stat-num { font-size:28px; font-weight:700; color:#64ffda; display:block; }
+    .project-hero .stat-label { font-size:12px; color:rgba(255,255,255,0.35); margin-top:4px; display:block; }
+    .project-hero .stat-desc { font-size:13px; color:rgba(255,255,255,0.5); margin-top:2px; }
+
+    .project-content { font-size:15px; color:rgba(255,255,255,0.72); line-height:1.9; }
+    .project-content h2 { font-size:20px; font-weight:700; color:#fff; margin-top:36px; margin-bottom:14px; }
+    .project-content h3 { font-size:16px; font-weight:600; color:#fff; margin-top:28px; margin-bottom:8px; }
+    .project-content p { margin-bottom:16px; }
+    .project-content ul { margin-bottom:16px; padding-left:20px; }
+    .project-content li { margin-bottom:6px; }
+    .project-content strong { color:rgba(255,255,255,0.9); }
+    .project-content .highlight-box {
+      background:rgba(100,255,218,0.03); border-left:3px solid #64ffda; border-radius:0 8px 8px 0;
+      padding:16px 20px; margin-bottom:24px;
+    }
+    .project-content .highlight-box p:last-child { margin-bottom:0; }
+
+    .project-section { border-top:1px solid rgba(255,255,255,0.04); padding-top:28px; margin-top:28px; }
+    .label-list { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0 16px; }
+    .label-list span {
+      padding:3px 10px; border-radius:10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
+      font-size:12px; color:rgba(255,255,255,0.4);
+    }
+    .footnote { font-size:13px; color:rgba(255,255,255,0.2); margin-top:40px; }
+
+    @media (max-width:640px) {
+      .project-hero { grid-template-columns:1fr 1fr; padding:20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="light-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div><div class="orb orb-5"></div></div>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">永乐工作室 <span class="logo-sub">🐉</span></a>
+    <div class="nav-links">
+      <a href="../index.html#about">关于</a><a href="../index.html#portfolio">作品集</a><a href="../notes/">笔记</a><a href="../team/">开发团队</a><a href="../index.html#contact">联系</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+  </div>
+</nav>
+
+<div class="project-page">
+  <a href="../index.html#portfolio" class="back-link">← 返回作品集</a>
+
+  <div class="project-header">
+    <span class="tag">量化 · 全自动交易</span>
+    <h1>A 股全自动量化交易系统</h1>
+    <div class="sub">多因子选股 · 自动交易 · 七层风控 · 持续运行中</div>
+    <div class="project-tech-bar">
+      <span>Python</span><span>C++</span><span>CTP API</span><span>SQLite</span>
+      <span>AkShare</span><span>Pandas</span><span>多因子模型</span>
+    </div>
+  </div>
+
+  <div class="project-hero">
+    <div class="stat-item">
+      <span class="stat-num">2.39</span>
+      <span class="stat-label">夏普比率</span>
+      <span class="stat-desc">（年化无风险利率 2%）</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">55.2%</span>
+      <span class="stat-label">年化收益率</span>
+      <span class="stat-desc">仿真盘数据</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">-5.5%</span>
+      <span class="stat-label">最大回撤</span>
+      <span class="stat-desc">运行期间</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">20-60%</span>
+      <span class="stat-label">动态仓位</span>
+      <span class="stat-desc">随市况自动调整</span>
+    </div>
+  </div>
+
+  <div class="project-content">
+
+    <p>
+      从零搭建的全自动 A 股量化交易系统。覆盖数据获取、因子计算、策略评分、自动交易到风险控制的全链路，无需人工干预。
+      当前在 openctp 仿真环境稳定运行。
+    </p>
+
+    <div class="project-section">
+      <h2>系统架构</h2>
+      <ul>
+        <li><strong>双层级评分引擎</strong>——Tier 1 选股（基本面+中长期）与 Tier 2 交易（技术面+微观结构）独立评分，避免"好公司没好价格"的问题</li>
+        <li><strong>20 因子全覆盖</strong>——趋势、动量、资金、基本面四大类，基本面权重 1.5 倍</li>
+        <li><strong>动态股票池</strong>——全市场 4000+ → 初筛 → 回测排名 → Top 10，月度调整，月中评分暴跌提前退出</li>
+        <li><strong>分级建仓</strong>——评分 20-40 半仓，40+ 满仓，不搞一把梭</li>
+      </ul>
+    </div>
+
+    <div class="project-section">
+      <h2>交易执行</h2>
+      <ul>
+        <li><strong>CTP 协议</strong>——C++ shim 封装 + Python ctypes 调用，对接 openctp 仿真交易环境</li>
+        <li><strong>三个买入窗口</strong>——09:25 开盘、12:00 午盘、14:30 尾盘，带限价保护</li>
+        <li><strong>全时段卖出监控</strong>——止损/止盈/移动止损/评分卖出，条件触发立即执行</li>
+      </ul>
+    </div>
+
+    <div class="project-section">
+      <h2>风控体系（七层）</h2>
+      <div class="label-list">
+        <span>ATR 止损 1.5×</span>
+        <span>移动止损</span>
+        <span>止盈 3.0×</span>
+        <span>大盘熔断</span>
+        <span>累计熔断</span>
+        <span>组合止损</span>
+        <span>波动率缩仓</span>
+        <span>跌停处理</span>
+        <span>连亏冷却</span>
+      </div>
+      <p>沪深 300 日跌 1.5% 减仓、8% 累计熔断、账户总回撤 12% 全清——每一层都是血泪教训换来的，不是纸上谈兵。</p>
+    </div>
+
+    <div class="project-section">
+      <h2>运维与监控</h2>
+      <ul>
+        <li><strong>每日自动推送</strong>——09:30 / 12:00 / 14:30 / 15:00 四个时段自动生成持仓简报</li>
+        <li><strong>自动交易集成</strong>——跟简报绑定，每次推送检查买卖信号并自动执行</li>
+        <li><strong>策略健康检查</strong>——每周分析因子 IC 衰减、实盘-回测偏差、参数稳定性</li>
+        <li><strong>滑点敏感性分析</strong>——测试不同滑点假设下的策略稳健性</li>
+      </ul>
+    </div>
+
+    <div class="project-section">
+      <h2>设计原则</h2>
+      <div class="highlight-box">
+        <p><strong>仿真是为了找出问题，而不是证明策略有效。</strong> 系统经历过数据源中断、CTP 断连、节假日误判、并发写入冲突等线上故障，每一类问题都变成了代码里的一个修复。真正的系统不是在 IDE 里写完就完了，而是在运行中修出来的。</p>
+      </div>
+    </div>
+
+    <div class="footnote">
+      <p>当前运行环境：openctp 仿真交易（≈1000 万模拟资金）· C++ shim + Python · 本地 macOS · 持续运行中</p>
+      <p style="margin-top:4px;">更多技术细节见 <a href="../notes/quant-system-architecture.html" style="color:#64ffda;">系统架构笔记</a></p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">永乐工作室 🐉 · 全栈开发</div>
+      <div class="footer-links">
+        <a href="../index.html#about">关于</a><a href="../index.html#portfolio">作品集</a><a href="../notes/">笔记</a><a href="../team/">开发团队</a><a href="../index.html#contact">联系</a>
+      </div>
+      <div class="footer-copy">© 2025 永乐工作室 · 用代码解决问题</div>
+    </div>
+  </div>
+</footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>

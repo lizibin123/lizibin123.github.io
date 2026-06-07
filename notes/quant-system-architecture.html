@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A 股全自动量化交易系统架构笔记 · 永乐工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .article-page { max-width: 720px; margin: 0 auto; padding: 120px 24px 80px; position: relative; z-index: 1; }
+    .article-page .back-link { display:inline-flex; align-items:center; gap:8px; color:rgba(255,255,255,0.35); font-size:14px; margin-bottom:32px; transition:color 0.2s; position:relative; }
+    .article-page .back-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:#64ffda; transition:width 0.25s; }
+    .article-page .back-link:hover { color:#64ffda; }
+    .article-page .back-link:hover::after { width:100%; }
+
+    .article-header { margin-bottom: 40px; }
+    .article-header .tag {
+      display:inline-block; padding:4px 12px; border-radius:12px; font-size:12px; color:#64ffda; background:rgba(100,255,218,0.08); margin-bottom:16px;
+    }
+    .article-header h1 { font-size:clamp(28px,4vw,36px); font-weight:700; color:#fff; line-height:1.3; margin-bottom:12px; }
+    .article-header .meta { font-size:13px; color:rgba(255,255,255,0.3); }
+
+    .article-body { font-size:15px; color:rgba(255,255,255,0.72); line-height:1.9; }
+    .article-body h2 { font-size:22px; font-weight:700; color:#fff; margin-top:44px; margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.04); }
+    .article-body h3 { font-size:17px; font-weight:600; color:#fff; margin-top:32px; margin-bottom:12px; }
+    .article-body p { margin-bottom:18px; }
+    .article-body strong { color:rgba(255,255,255,0.9); }
+    .article-body ul, .article-body ol { margin-bottom:18px; padding-left:20px; }
+    .article-body li { margin-bottom:6px; }
+    .article-body code {
+      padding:2px 8px; border-radius:6px; background:rgba(100,255,218,0.06); border:1px solid rgba(100,255,218,0.08);
+      font-size:13px; font-family:'SF Mono','Fira Code','Consolas',monospace; color:#64ffda;
+    }
+    .article-body pre {
+      background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:12px;
+      padding:20px 24px; overflow-x:auto; margin-bottom:24px;
+    }
+    .article-body pre code {
+      background:none; border:none; padding:0; font-size:13px; color:rgba(255,255,255,0.65); line-height:1.7;
+    }
+    .article-body .highlight-box {
+      background:rgba(100,255,218,0.03); border-left:3px solid #64ffda; border-radius:0 8px 8px 0;
+      padding:16px 20px; margin-bottom:24px;
+    }
+    .article-body .highlight-box p:last-child { margin-bottom:0; }
+    .article-body .arch-diagram {
+      background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:12px;
+      padding:24px; margin-bottom:24px; text-align:center;
+    }
+    .article-body .arch-diagram pre {
+      background:none; border:none; padding:0; margin:0; font-size:12px; color:rgba(255,255,255,0.5); text-align:left;
+    }
+    .article-body .diagram-label { font-size:12px; color:rgba(255,255,255,0.25); margin-top:8px; }
+
+    .article-footer {
+      margin-top:60px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.04);
+      font-size:14px; color:rgba(255,255,255,0.25);
+    }
+  </style>
+</head>
+<body>
+<div class="light-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div><div class="orb orb-5"></div></div>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">永乐工作室 <span class="logo-sub">🐉</span></a>
+    <div class="nav-links">
+      <a href="../index.html#about">关于</a><a href="../index.html#portfolio">作品集</a><a href="index.html">笔记</a><a href="../team/">开发团队</a><a href="../index.html#contact">联系</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+  </div>
+</nav>
+
+<div class="article-page">
+  <a href="index.html" class="back-link">← 返回笔记列表</a>
+  <div class="article-header">
+    <span class="tag">量化 · 系统设计</span>
+    <h1>A 股全自动量化交易系统：从零搭建到全自动运行</h1>
+    <div class="meta">2026 年 6 月 · 约 20 分钟阅读</div>
+  </div>
+  <div class="article-body">
+
+    <p>
+      我从 2025 年底开始做一个 A 股全自动量化交易系统，到现在跑了几个月。这篇文章记录系统的整体架构、关键技术决策和一些踩过的坑。不涉及具体策略代码，侧重工程层面的设计思路。
+    </p>
+
+    <div class="highlight-box">
+      <p><strong>系统定位：</strong>全自动、多因子、风险可控的 A 股量化交易系统。数据获取 → 因子计算 → 评分引擎 → 自动交易 → 风控熔断，全链路自动化，无需人工干预。</p>
+    </div>
+
+    <h2>为什么做这个</h2>
+    <p>
+      之前写过网格策略的回测工具（<a href="../portfolio/quantgrid.html" style="color:#64ffda;">QuantGrid</a>），回测发现网格策略针对震荡市还行，趋势市容易踏空或套牢。A 股的特性是散户主导、波动大、结构性行情为主，想用多因子选股 + 趋势择时的思路来吃 alpha。
+    </p>
+    <p>
+      核心思路很简单：用数据选好股票，用好价格买入，及时止损，让利润跑。
+    </p>
+
+    <h2>整体架构</h2>
+    <p>系统分六个模块，一条流水线串起来：</p>
+
+    <div class="arch-diagram">
+<pre>
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│  数据层      │───→│  因子引擎    │───→│  评分系统    │
+│  K线/财报    │    │  20个因子    │    │  两级评分    │
+│  资金流向    │    │  技术+基本面 │    │  Tier1+Tier2 │
+└─────────────┘    └─────────────┘    └──────┬──────┘
+                                             │
+                                             ↓
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│  风控系统    │←───│  交易执行    │←───│  股票池      │
+│  ATR止损    │    │  CTP协议    │    │  月度筛选    │
+│  大盘熔断    │    │  自动下单    │    │  4000→10只  │
+└─────────────┘    └─────────────┘    └─────────────┘
+</pre>
+      <div class="diagram-label">系统整体架构（六个模块，数据驱动）</div>
+    </div>
+
+    <h3>数据层</h3>
+    <p>
+      数据源用了两个：<code>akshare</code> 做日常数据获取（K线、资金流向、成交数据等），本地 SQLite 做缓存和持久化。日线数据全量存库，减少不必要的重复拉取。财报数据按季度同步。
+    </p>
+    <p>
+      遇到的一个坑：akshare 对代理敏感，macOS 上如果开了 ClashX 会请求超时。后来所有数据请求加了 <code>trust_env=False</code> 处理。
+    </p>
+
+    <h3>因子引擎</h3>
+    <p>
+      目前跑 20 个因子，分成四类：
+    </p>
+    <ul>
+      <li><strong>趋势类</strong>：均线排列、金叉死叉、MACD 状态、线性回归斜率、趋势强度</li>
+      <li><strong>动量类</strong>：RSI、量价配合、价量爆发、成交量异常、连续涨跌</li>
+      <li><strong>资金类</strong>：资金流向、横截面排名、ATR 突破、波动率结构、波动率突变</li>
+      <li><strong>基本面类</strong>：EP 因子、业绩增长。基本面因子权重设为 1.5 倍</li>
+    </ul>
+    <p>
+      每个因子独立计算打分，最终加权汇总。每一期的因子权重可以通过回测优化来确定，不是拍脑袋定的。
+    </p>
+
+    <h3>双层级评分引擎</h3>
+    <p>
+      这是系统的核心设计之一。不是简单地把所有股票排个分就买——分了两层：
+    </p>
+    <ul>
+      <li><strong>Tier 1 — 选股评分</strong>：偏基本面 + 中长期。全市场 4000+ 只股票跑一遍，过滤掉 ST、流动性不足、成交额低于 5000 万的，给每只股票一个综合分。≥20 分的进入候选池。</li>
+      <li><strong>Tier 2 — 交易评分</strong>：偏技术面 + 微观结构。对候选池里的股票做回测排名，挑出前 10 只作为实际持仓。交易评分更侧重短期择时，决定什么时候买、什么时候卖。</li>
+    </ul>
+    <p>
+      这种两级设计解决了一个问题：好公司不等于好交易时机，好交易时机也不等于好公司。两个维度分开评估比混在一起效果更好。
+    </p>
+
+    <h3>股票池管理</h3>
+    <p>
+      持仓上限 10 只，月度动态调整。每个月把全市场重新筛一遍，新的 Top 10 替换旧的。月中如果某个持仓评分跌破 -25 分，提前卖出退出，不等月末。
+    </p>
+    <p>
+      分级建仓：评分 20-40 分的半仓进场，40+ 分的满仓进。不搞一次性满仓。
+    </p>
+
+    <h3>交易执行</h3>
+    <p>
+      执行层是最折腾的部分。A 股没有官方的开放交易 API，个人投资者能用的通道很有限。这里接入了 <strong>openctp</strong> 仿真交易环境（基于 CTP 协议的模拟交易），跟实盘用的是同一套协议。
+    </p>
+    <p>
+      技术方案是 C++ shim 层封装 CTP API，再用 Python ctypes 调用。这样选：C++ 负责底层的网络通信和协议解析，Python 负责策略逻辑和业务编排——各取所长。
+    </p>
+
+    <div class="highlight-box">
+      <p><strong>技术栈选型：</strong>C++ shim（CTP API 封装）+ Python ctypes（跨语言调用）+ Python 策略层。C++ 只做协议层，不碰策略逻辑，方便后面替换底层接口。</p>
+    </div>
+
+    <p>
+      交易时段有两个：09:25 开盘买入 + 12:00 午盘买入。后来加了 14:30-14:35 尾盘买入窗口。卖出则全程监控，触发出场条件立即挂单。
+    </p>
+
+    <h2>风控体系</h2>
+    <p>
+      风控是这个系统里我花时间最多的部分。A 股波动大，2015 年股灾、2016 年熔断、2024 年初的流动性危机——没有风控，再好的策略也会被一波带走。
+    </p>
+    <p>现在的风控有七层：</p>
+
+    <h3>1. 个股止损</h3>
+    <p>1.5 倍 ATR 止损。ATR（Average True Range）衡量日内真实波幅，止损位随 ATR 变化动态调整。不是固定 5% 或 10%，遇到低波动股票止损窄，高波动股票止损宽。</p>
+
+    <h3>2. 移动止损</h3>
+    <p>从买入第一天开始追踪价格峰值，一旦从峰值回撤超过 1.5×ATR 就卖出。解决"盈利了没卖，跌回来才后悔"的问题。</p>
+
+    <h3>3. 止盈</h3>
+    <p>3.0 倍 ATR 止盈。最早设的是 8 倍 ATR，发现 A 股趋势持续性不够，大部分股票涨不到那么远就回调了，后来改到 3 倍更现实。</p>
+
+    <h3>4. 大盘熔断</h3>
+    <p>沪深 300 单日跌超 1.5% 减 1/3 仓位，超 2.5% 减半仓，超 4% 全清。这个不是预测市场，是承认"当系统性风险来的时候，不要试图对抗"。</p>
+
+    <h3>5. 累计熔断</h3>
+    <p>沪深 300 从近期高点累计跌超 8% 全清仓，等反弹超 3% 才重新进场。防止在持续下跌中不断抄底不断亏损。</p>
+
+    <h3>6. 组合止损</h3>
+    <p>账户总回撤超过 8% 减半仓，超过 12% 全清。这是给自己的账户一个总止损线，不让一次策略回撤伤筋动骨。</p>
+
+    <h3>7. 波动率缩仓</h3>
+    <p>沪深 300 的 ATR 平均值超过 2.5% 时，自动降低仓位上限。市场太动荡了就不该满仓干。</p>
+
+    <h3>8. 跌停处理</h3>
+    <p>如果持仓跌停卖不出去，标记为跌停状态，次日集合竞价市价卖出。这是个很实际的场景——A 股跌停封死的时候你想卖也卖不掉，得有预案。</p>
+
+    <h3>9. 连亏冷却</h3>
+    <p>连续 2 笔交易亏损（止损或评分卖出），暂停交易 5 天。既是给策略冷静期，也是给自己冷静期。</p>
+
+    <p style="margin-top:24px;">这些风控规则不是一次设计好的。最初只有 ATR 止损和止盈，随着回测和仿真运行中暴露的问题，一层一层加上去的。每一层都对应过一种真实亏损场景。</p>
+
+    <h2>一些工程决策</h2>
+
+    <h3>数据新鲜度校验</h3>
+    <p>
+      买入前会检查价格数据是否过时。如果最新 K 线跟当前时间差太多（比如因为假期或者数据源故障），跳过这笔交易。吃过这个亏——有一次数据源停了半天，系统还按旧数据在跑，差点出事。
+    </p>
+
+    <h3>并发写入保护</h3>
+    <p>
+      策略的持仓和状态文件（<code>trade_state.json</code>）在多个模块间共享。用 <code>fcntl</code> 文件锁防止并发写入造成数据损坏。小问题，但不处理好会在关键时候出 bug。
+    </p>
+
+    <h3>CTP 重连机制</h3>
+    <p>
+      CTP 仿真环境偶尔会断开连接。30 分钟间隔自动重置连接失败计数，避免永久断连。网络不稳定是常态，接受它，设计上容忍它。
+    </p>
+
+    <h3>节假日判断</h3>
+    <p>
+      用 akshare 的交易日历来判断当天是不是交易日。没有这个，放假期间系统还在跑就会产生大量无效信号。别笑——我一开始确实没写这个。
+    </p>
+
+    <h3>买入限价</h3>
+    <p>
+      不是直接市价买入。开盘时间买 +0.5%，午盘 +0.5%，尾盘 +0.3%。A 股波动大，市价单容易被滑点吃掉利润。
+    </p>
+
+    <h2>仿真运行表现</h2>
+
+    <p>当前的策略版本在 openctp 仿真环境（约 1000 万模拟资金）上运行，主要指标：</p>
+
+    <ul>
+      <li><strong>夏普比率</strong>：2.39（以无风险利率 2% 计算）</li>
+      <li><strong>年化收益率</strong>：55.2%</li>
+      <li><strong>最大回撤</strong>：5.5%</li>
+      <li><strong>仓位管理</strong>：动态调整 20%-60%，沪深 300 跌破 MA200 时自动降至 20%</li>
+    </ul>
+
+    <div class="highlight-box">
+      <p><strong>免责声明：</strong>以上是仿真交易数据，不代表实盘表现。仿真盘没有真实滑点、冲击成本和情绪影响，实盘一定会打折扣。用仿真数据来优化策略可以，用仿真数据来预期收益不行。</p>
+    </div>
+
+    <h2>迭代与维护</h2>
+    <p>
+      系统做了几个辅助工具来持续跟踪运行状态：
+    </p>
+    <ul>
+      <li><strong>每日简报</strong>：自动在 09:30 / 12:00 / 14:30 / 15:00 推送持仓评分、操作要点和交易记录</li>
+      <li><strong>自动交易</strong>：跟简报绑定，每次推送时检查是否有买入或卖出信号</li>
+      <li><strong>策略健康检查</strong>：每周检查实盘与回测的收益偏差、因子 IC 衰减、参数稳定性。防止策略在实盘中"走样"而自己不知道</li>
+      <li><strong>滑点敏感性测试</strong>：测试不同滑点假设对策略收益的影响，了解策略的"安全边际"</li>
+    </ul>
+
+    <h2>一些反思</h2>
+
+    <p><strong>回测不会说谎，但会欺骗。</strong> 同样的策略，参数不同、时间段不同、手续费假设不同，出来的结果天差地别。我用滚动窗口验证（walk-forward）来减少过拟合的风险，但永远无法彻底消除。</p>
+
+    <p><strong>因子会衰减。</strong> 半年到一年前有效的因子，现在可能已经变成噪音了。系统每周的 IC 分析就是在监控这个——因子失效了要及时换，不能抱着历史回测当真理。</p>
+
+    <p><strong>交易策略只占 30%，剩下 70% 是风控和运维。</strong> 大部分时间不是在研究更好的策略，而是在处理数据中断、网络断开、行情异常这类事情。如果你的策略没有陪它跑过三个月，你根本不知道它会出什么问题。</p>
+
+    <h2>下一步</h2>
+
+    <p>
+      有几个方向在规划中：实盘小资金验证（目前还是仿真）、增加更多数据维度（北向资金、龙虎榜）、优化因子动态权重。不着急，慢慢来，做投资不是比谁跑得快，是比谁活得久。
+    </p>
+
+  </div>
+  <div class="article-footer">
+    <p>如果你对量化交易系统搭建感兴趣，或者想聊聊技术实现，欢迎通过首页的联系方式找我交流。</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">永乐工作室 🐉 · 全栈开发</div>
+      <div class="footer-links">
+        <a href="../index.html#about">关于</a><a href="../index.html#portfolio">作品集</a><a href="index.html">笔记</a><a href="../team/">开发团队</a><a href="../index.html#contact">联系</a>
+      </div>
+      <div class="footer-copy">© 2025 永乐工作室 · 用代码解决问题</div>
+    </div>
+  </div>
+</footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>
