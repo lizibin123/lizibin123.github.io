@@ -1,7 +1,7 @@
 {
   "name": "yongle-studio",
   "version": "1.0.0",
-  "description": "永乐工作室 · 个人官网",
+  "description": "莫门工作室 · 个人官网",
   "dependencies": {
     "nodemailer": "^7.0.0"
   }

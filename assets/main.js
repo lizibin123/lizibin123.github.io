@@ -155,7 +155,7 @@ if (form) {
 
     // 方案二：邮件备选（本地服务没启动时）
     const mailBody = `需求来自: ${name}\n联系方式: ${contact || '未提供'}\n\n需求描述:\n${message}`;
-    window.location.href = `mailto:lizibin123123@outlook.com?subject=${encodeURIComponent('📩 永乐工作室 · 新需求')}&body=${encodeURIComponent(mailBody)}`;
+    window.location.href = `mailto:lizibin123123@outlook.com?subject=${encodeURIComponent('📩 莫门工作室 · 新需求')}&body=${encodeURIComponent(mailBody)}`;
 
     // 同时保存到 localStorage
     saveToLocal({ name, contact, message });

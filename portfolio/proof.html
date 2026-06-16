@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一句话证明你____ · 莫门工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .detail-page { max-width: 900px; margin:0 auto; padding:120px 24px 80px; position:relative; z-index:1; }
+    .detail-page h1 { font-size:clamp(28px,5vw,40px); font-weight:800; color:#fff; margin-bottom:8px; }
+    .detail-page .meta { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:32px; }
+    .detail-page .meta span { padding:4px 14px; border-radius:20px; background:rgba(100,255,218,0.06); border:1px solid rgba(100,255,218,0.1); font-size:13px; color:#64ffda; }
+    .detail-page .content { font-size:16px; color:rgba(255,255,255,0.7); line-height:1.9; }
+    .detail-page .content h2 { font-size:22px; color:#fff; margin:36px 0 16px; }
+    .detail-page .content ul { list-style:none; padding:0; }
+    .detail-page .content ul li { padding:8px 0; padding-left:24px; position:relative; }
+    .detail-page .content ul li::before { content:'▸'; position:absolute; left:0; color:#64ffda; }
+    .detail-page .content strong { color:#fff; }
+    .detail-page .back-link { display:inline-flex; align-items:center; gap:8px; color:rgba(255,255,255,0.35); font-size:14px; margin-bottom:40px; transition:color 0.2s; }
+    .detail-page .back-link:hover { color:#64ffda; }
+    .screenshots { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:32px 0; }
+    .screenshot { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:16px; height:200px; display:flex; align-items:center; justify-content:center; font-size:48px; }
+    @media (max-width:768px) { .screenshots { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<div class="light-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div><div class="orb orb-5"></div></div>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">莫门工作室 <span class="logo-sub">⚡</span><span class="logo-en">Momentum Studio</span></a>
+    <div class="nav-links">
+      <a href="../index.html#about">关于</a><a href="../pricing/index.html">服务报价</a><a href="index.html">作品集</a><a href="../notes/index.html">笔记</a><a href="../team/index.html">开发团队</a><a href="../contact/index.html">联系</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+  </div>
+</nav>
+
+<div class="detail-page">
+  <a href="index.html" class="back-link">← 返回作品集</a>
+  <h1>💬 一句话证明你____</h1>
+  <div class="meta">
+    <span>微信小程序</span><span>社交</span><span>2026.06</span>
+  </div>
+
+  <div class="screenshots">
+    <div class="screenshot">🏠</div>
+    <div class="screenshot">💬</div>
+    <div class="screenshot">👤</div>
+  </div>
+
+  <div class="content">
+    <h2>项目概述</h2>
+    <p>一款话题共创型微信小程序。用户围绕一个开放式话题提交自己的答案，其他用户点赞投票。核心玩法是「一句话证明你是____」，比如「一句话证明你是程序员」「一句话证明你养过猫」。</p>
+
+    <h2>核心功能</h2>
+    <ul>
+      <li><strong>话题发现</strong>：按热度/时间浏览话题，搜索感兴趣的主题</li>
+      <li><strong>创建话题</strong>：用户自由创建新话题，周限额 3 个，超限需看广告解锁</li>
+      <li><strong>提交内容</strong>：对话题提交「一句话」，提交后可看广告置顶 5 分钟</li>
+      <li><strong>投票互动</strong>：每条内容限投 1 票，同设备/同 IP 防刷</li>
+      <li><strong>反作弊</strong>：票数 + 内容质量分联合排名，AI 过滤违规内容，高相似度合并</li>
+      <li><strong>品牌话题</strong>：B 端付费创建品牌专属话题，带广告位</li>
+    </ul>
+
+    <h2>技术实现</h2>
+    <ul>
+      <li>微信小程序原生开发（WXML + WXSS + JavaScript）</li>
+      <li>云开发架构（云数据库 + 云函数）</li>
+      <li>话题数据按热度/时间双索引排序</li>
+      <li>广告激励体系接入微信流量主</li>
+      <li>反作弊：每条内容单 IP/单设备限投，分数联合排名</li>
+    </ul>
+
+    <h2>开发背景</h2>
+    <p>基于朋友之间「一句话证明」的梗文化，做一款轻社交小程序。从需求到原型到完整代码架构，独立完成。测试号限制下改用纯本地模拟数据开发。</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">莫门工作室 · Momentum Studio</div>
+      <div class="footer-links">
+        <a href="../index.html#about">关于</a><a href="../pricing/index.html">服务报价</a><a href="index.html">作品集</a><a href="../notes/index.html">笔记</a><a href="../team/index.html">开发团队</a><a href="../contact/index.html">联系</a>
+      </div>
+      <div class="footer-copy">© 2026 莫门工作室 · 用代码解决问题</div>
+    </div>
+  </div>
+</footer>
+<script src="../assets/main.js"></script>
+</body>
+</html>

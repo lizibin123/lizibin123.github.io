@@ -1,5 +1,5 @@
 /**
- * 永乐工作室 · 需求接收服务
+ * 莫门工作室 · 需求接收服务
  *
  * 启动方式：
  *   EMAIL_USER=your-email@outlook.com EMAIL_PASS=your-password node server.js
@@ -60,10 +60,10 @@ async function sendEmailNotification({ name, contact, message, id }) {
   const mailOptions = {
     from: SMTP_CONFIG.auth.user,
     to: TO_EMAIL,
-    subject: `📩 永乐工作室 · 新需求来自 ${name}`,
+    subject: `📩 莫门工作室 · 新需求来自 ${name}`,
     text: [
       `═══════════════════════════════════════`,
-      `  永乐工作室 · 客户需求`,
+      `  莫门工作室 · 客户需求`,
       `═══════════════════════════════════════`,
       ``,
       `  📅 时间: ${time}`,
@@ -76,11 +76,11 @@ async function sendEmailNotification({ name, contact, message, id }) {
       `  ${message}`,
       ``,
       `═══════════════════════════════════════`,
-      `  此邮件由永乐工作室官网自动发送`,
+      `  此邮件由莫门工作室官网自动发送`,
     ].join('\n'),
     html: [
       `<div style="font-family: -apple-system, 'PingFang SC', sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0f; color: #e0e0e0; padding: 32px; border-radius: 16px;">`,
-      `<div style="font-size: 24px; margin-bottom: 24px; color: #64ffda; font-weight: 700;">📩 永乐工作室 · 新需求</div>`,
+      `<div style="font-size: 24px; margin-bottom: 24px; color: #64ffda; font-weight: 700;">📩 莫门工作室 · 新需求</div>`,
       `<table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">`,
       `<tr><td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 13px; width: 80px;">时间</td><td style="padding: 8px 0; color: #fff;">${time}</td></tr>`,
       `<tr><td style="padding: 8px 0; color: rgba(255,255,255,0.4); font-size: 13px;">客户</td><td style="padding: 8px 0; color: #fff;">${name}</td></tr>`,
@@ -91,7 +91,7 @@ async function sendEmailNotification({ name, contact, message, id }) {
       `<div style="font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 10px;">需求描述</div>`,
       `<div style="font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.8); white-space: pre-wrap;">${message.replace(/\n/g, '<br>')}</div>`,
       `</div>`,
-      `<div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px; font-size: 12px; color: rgba(255,255,255,0.2);">此邮件由永乐工作室官网自动发送</div>`,
+      `<div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px; font-size: 12px; color: rgba(255,255,255,0.2);">此邮件由莫门工作室官网自动发送</div>`,
       `</div>`
     ].join('\n')
   };
@@ -186,7 +186,7 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => {
   console.log('');
   console.log('═══════════════════════════════════════');
-  console.log('  🐉 永乐工作室 · 需求接收服务已启动');
+  console.log('  🐉 莫门工作室 · 需求接收服务已启动');
   console.log('  ────────────────────────────────');
   console.log(`  收件邮箱: ${TO_EMAIL}`);
   console.log(`  SMTP: ${SMTP_CONFIG.host}:${SMTP_CONFIG.port}`);

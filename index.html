@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>永乐工作室 · 全栈开发</title>
+  <title>莫门工作室 · Momentum Studio</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -19,13 +19,14 @@
   <!-- ===== Navigation ===== -->
   <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a href="#" class="logo">永乐工作室 <span class="logo-sub">🐉</span></a>
+      <a href="#" class="logo">莫门工作室 <span class="logo-sub">⚡</span><span class="logo-en">Momentum Studio</span></a>
       <div class="nav-links">
         <a href="#about">关于</a>
-        <a href="#portfolio">作品集</a>
-        <a href="#notes">笔记</a>
-        <a href="team/">开发团队</a>
-        <a href="#contact">联系</a>
+        <a href="pricing/index.html">服务报价</a>
+        <a href="portfolio/index.html">作品集</a>
+        <a href="notes/index.html">笔记</a>
+        <a href="team/index.html">开发团队</a>
+        <a href="contact/index.html">联系</a>
       </div>
       <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
     </div>
@@ -47,7 +48,7 @@
       <div class="hero-actions">
         <a href="#portfolio" class="btn btn-primary">看作品集</a>
         <a href="#notes" class="btn btn-primary" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);">📝 笔记</a>
-        <a href="#contact" class="btn btn-primary" style="background:linear-gradient(135deg,#f59e0b,#f472b6);">立马开始</a>
+        <a href="contact/index.html" class="btn btn-primary" style="background:linear-gradient(135deg,#f59e0b,#f472b6);">立马开始</a>
       </div>
       <div class="hero-stats">
         <div class="stat">
@@ -70,15 +71,17 @@
   <section class="section" id="about">
     <div class="container">
       <div class="section-label">About</div>
-      <h2 class="section-title">关于我</h2>
+      <h2 class="section-title">关于工作室</h2>
       <div class="about-grid">
         <div class="about-text">
-          <p>独立开发者，专注于用代码帮个人和企业解决实际问题。不挑框架、不炫技，选最适合的工具把活干完。</p>
-          <p><strong>擅长领域：</strong></p>
+          <p><strong>杭州萧山莫门软件开发工作室</strong>（Momentum Studio）是一家专注软件定制开发的技术工作室，2026 年注册于杭州市萧山区。我们的核心理念很简单：<em>用代码解决实际问题，不画饼，把东西做出来</em>。</p>
+          <p>创始人李子彬，计算机科班出身，拥有从 Java 后端到 Python 全栈的丰富实战经验。曾任职于大型企业后端开发团队，也在量化交易领域深度耕耘——独立搭建了运行中的 A 股全自动交易系统（夏普比率 2.39，年化收益 55%）。现在全职投入莫门工作室，为个人和企业提供靠谱的软件定制服务。</p>
+          <p><strong>我们做什么：</strong></p>
           <div class="skill-tags">
             <span class="tag">微信小程序</span>
             <span class="tag">网站开发</span>
             <span class="tag">Python 脚本</span>
+            <span class="tag">SaaS 系统</span>
             <span class="tag">API 对接</span>
             <span class="tag">数据爬虫</span>
             <span class="tag">自动化工具</span>
@@ -86,12 +89,9 @@
             <span class="tag">Node.js</span>
             <span class="tag">Flask / Django</span>
           </div>
-          <p><strong>合作过的客户：</strong>小微企业、个人博主、电商卖家、创业团队、高校学生……从几百块的小脚本到上万块的系统，靠谱交付。</p>
-          <div style="margin-top:28px;">
-            <a href="team/" class="btn btn-primary" style="font-size:14px; padding:12px 28px;">
-              👥 开发团队 →
-            </a>
-          </div>
+          <p><strong>为什么选择我们：</strong></p>
+          <p>不挑单，从小到几百块的脚本到几万块的全栈系统都认真对待。交付源码，不绑人——你拿到代码后想找谁维护都可以。明码标价，免费评估方案，觉得不合适随时终止，没有套路。</p>
+          <p><strong>服务过的客户类型：</strong>小微企业、创业团队、个人博主、电商卖家、高校师生……需求不分大小，把事办好才是本事。</p>
         </div>
         <div class="about-card">
           <div class="about-card-item">
@@ -99,179 +99,24 @@
             <span>快速响应，白天基本秒回</span>
           </div>
           <div class="about-card-item">
-            <span class="about-card-icon">✅</span>
-            <span>交付才收款，不满意免费改</span>
+            <span class="about-card-icon">💰</span>
+            <span>交付才付尾款，不满意免费改</span>
           </div>
           <div class="about-card-item">
             <span class="about-card-icon">🔐</span>
-            <span>源码全交付，不绑人</span>
+            <span>源码全交付，不锁人不绑人</span>
           </div>
           <div class="about-card-item">
             <span class="about-card-icon">📦</span>
-            <span>部署上线一条龙</span>
+            <span>开发 + 部署 + 上线，一站式</span>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Portfolio ===== -->
-  <section class="section section-dark" id="portfolio">
-    <div class="container">
-      <div class="section-label">Portfolio</div>
-      <h2 class="section-title">作品集</h2>
-      <p class="section-sub">部分项目案例（持续更新中）</p>
-        <div class="portfolio-grid">
-        <a href="portfolio/aichat.html" class="portfolio-card">
-          <div class="portfolio-card-img" style="background: linear-gradient(135deg, #0f3460, #16213e);">
-            <span style="font-size:42px;">🤖</span>
+          <div class="about-card-item">
+            <span class="about-card-icon">📋</span>
+            <span>正规个体户，可开发票</span>
           </div>
-          <div class="portfolio-card-body">
-            <span class="portfolio-card-tag">AI · 工具</span>
-            <h3>AIChat — 终端 AI 助手</h3>
-            <p>命令行里和 AI 对话。支持 DeepSeek / OpenAI，流式输出，对话历史保存与恢复，Rich 终端的彩色 Markdown 渲染。纯终端，速度快。</p>
-            <div class="portfolio-tech">
-              <span>Python</span>
-              <span>httpx</span>
-              <span>SSE</span>
-              <span>Rich</span>
-            </div>
-          </div>
-        </a>
-        <a href="portfolio/clipbar.html" class="portfolio-card">
-          <div class="portfolio-card-img" style="background: linear-gradient(135deg, #2d1b4e, #1a0a2e);">
-            <span style="font-size:42px;">📋</span>
-          </div>
-          <div class="portfolio-card-body">
-            <span class="portfolio-card-tag">macOS · 工具</span>
-            <h3>ClipBar — 剪贴板历史管理器</h3>
-            <p>macOS 菜单栏应用，自动记录剪贴板历史（最近 100 条），一键复制回剪贴板，支持清空历史。纯离线运行，数据本地存储，保护隐私。</p>
-            <div class="portfolio-tech">
-              <span>Python</span>
-              <span>rumps</span>
-              <span>pyperclip</span>
-              <span>macOS</span>
-            </div>
-          </div>
-        </a>
-        <a href="portfolio/quantrader.html" class="portfolio-card">
-          <div class="portfolio-card-img" style="background: linear-gradient(135deg, #00281e, #0a1428);">
-            <span style="font-size:42px;">📈</span>
-          </div>
-          <div class="portfolio-card-body">
-            <span class="portfolio-card-tag">量化 · 全自动交易</span>
-            <h3>A 股全自动量化交易系统</h3>
-            <p>多因子选股 + 自动交易 + 七层风控。20 因子双层级评分引擎、CTP 协议自动下单、仿真盘稳定运行（夏普 2.39）。</p>
-            <div class="portfolio-tech">
-              <span>Python</span>
-              <span>C++</span>
-              <span>CTP API</span>
-              <span>多因子</span>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div style="text-align:center; margin-top:40px;">
-        <a href="portfolio/" class="btn btn-outline">查看更多 →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Notes ===== -->
-  <section class="section" id="notes">
-    <div class="container">
-      <div class="section-label">Notes</div>
-      <h2 class="section-title">笔记</h2>
-      <p class="section-sub">技术笔记、踩坑记录、效率工具分享</p>
-      <div class="notes-list">
-        <a href="notes/springboot-rest-api.html" class="note-item">
-          <div class="note-date">2026.05</div>
-          <div class="note-content">
-            <h3>SpringBoot + MyBatis 实战：从零搭建 RESTful API</h3>
-            <p>项目初始化、分层结构、CRUD 接口编写，完整后端开发流程。</p>
-          </div>
-          <div class="note-arrow">→</div>
-        </a>
-        <a href="notes/quant-system-architecture.html" class="note-item">
-          <div class="note-date">2026.06</div>
-          <div class="note-content">
-            <h3>A 股全自动量化交易系统架构笔记</h3>
-            <p>多因子评分引擎设计、CTP 协议封装、七层风控体系、仿真运行表现与反思。</p>
-          </div>
-          <div class="note-arrow">→</div>
-        </a>
-        <a href="notes/github-pages-brand.html" class="note-item">
-          <div class="note-date">2026.05</div>
-          <div class="note-content">
-            <h3>独立开发者如何用 GitHub Pages 搭建个人品牌网站</h3>
-            <p>免费托管、自动部署、自定义域名、访问统计完整指南。</p>
-          </div>
-          <div class="note-arrow">→</div>
-        </a>
-      </div>
-      <div style="text-align:center; margin-top:40px;">
-        <a href="notes/index.html" class="btn btn-outline">查看更多 →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Contact ===== -->
-  <section class="section section-dark" id="contact">
-    <div class="container">
-      <div class="section-label">Contact</div>
-      <h2 class="section-title">联系我</h2>
-      <p class="section-sub">有需求？想合作？直接发消息</p>
-      <div class="contact-grid">
-        <div class="contact-info">
-          <div class="contact-item">
-            <span class="contact-icon">📱</span>
-            <div>
-              <div class="contact-label">闲鱼</div>
-              <div class="contact-value">搜索「永乐工作室」或私信</div>
-            </div>
-          </div>
-          <div class="contact-item">
-            <span class="contact-icon">💬</span>
-            <div>
-              <div class="contact-label">微信</div>
-              <div class="contact-value">私信获取</div>
-            </div>
-          </div>
-          <div class="contact-item">
-            <span class="contact-icon">✉️</span>
-            <div>
-              <div class="contact-label">邮箱</div>
-              <div class="contact-value">私信获取</div>
-            </div>
-          </div>
-          <div class="contact-item">
-            <span class="contact-icon">⚡</span>
-            <div>
-              <div class="contact-label">响应时间</div>
-              <div class="contact-value">白天 < 10 分钟</div>
-            </div>
-          </div>
-        </div>
-        <div class="contact-cta-card">
-          <h3>现在就开始？</h3>
-          <p style="margin-bottom:24px;">留下你的需求，我免费评估方案和报价</p>
-          <form class="contact-form" id="contactForm">
-            <div class="form-row">
-              <input type="text" class="form-input" id="formName" placeholder="你的称呼 *" required>
-              <input type="text" class="form-input" id="formContact" placeholder="微信 / 电话 / 邮箱">
-            </div>
-            <textarea class="form-textarea" id="formMessage" placeholder="描述你的需求：想做什么、用什么技术、预算是多少？ *" rows="4" required></textarea>
-            <div class="form-footer">
-              <span class="form-hint">不挑单，小到脚本大到系统都接</span>
-              <button type="submit" class="btn btn-primary form-submit">提交需求 →</button>
-            </div>
-          </form>
-          <div class="form-success" id="formSuccess">
-            <span class="form-success-icon">✅</span>
-            <div>
-              <strong>需求已提交！</strong>
-              <p>我会在 24 小时内联系你，请留意微信/消息。</p>
-            </div>
+          <div class="about-card-item">
+            <span class="about-card-icon">🛠️</span>
+            <span>1 个月免费维护，长期可续</span>
           </div>
         </div>
       </div>
@@ -282,15 +127,16 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-inner">
-        <div class="footer-brand">永乐工作室 🐉 · 全栈开发</div>
+        <div class="footer-brand">莫门工作室 · Momentum Studio</div>
         <div class="footer-links">
           <a href="#about">关于</a>
-          <a href="#portfolio">作品集</a>
-          <a href="#notes">笔记</a>
-          <a href="team/">开发团队</a>
-          <a href="#contact">联系</a>
+          <a href="pricing/index.html">服务报价</a>
+          <a href="portfolio/index.html">作品集</a>
+          <a href="notes/index.html">笔记</a>
+          <a href="team/index.html">开发团队</a>
+          <a href="contact/index.html">联系</a>
         </div>
-        <div class="footer-copy">© 2025 永乐工作室 · 用代码解决问题</div>
+        <div class="footer-copy">© 2026 莫门工作室 · 用代码解决问题</div>
       </div>
     </div>
   </footer>

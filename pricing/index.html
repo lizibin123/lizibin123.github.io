@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>服务报价 · 莫门工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .pricing-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 36px 28px;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .pricing-card:hover {
+      border-color: rgba(100,255,218,0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    .pricing-card.featured {
+      border-color: rgba(100,255,218,0.2);
+      background: linear-gradient(135deg, rgba(100,255,218,0.04), rgba(72,198,239,0.03));
+    }
+    .pricing-card .badge {
+      position: absolute;
+      top: -12px;
+      right: 28px;
+      background: linear-gradient(135deg, #64ffda, #48c6ef);
+      color: #0a0a0f;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .pricing-icon { font-size: 40px; margin-bottom: 20px; }
+    .pricing-card h3 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .pricing-card .price {
+      font-size: 36px;
+      font-weight: 800;
+      color: #64ffda;
+      margin-bottom: 4px;
+    }
+    .pricing-card .price small {
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.4);
+    }
+    .pricing-card .duration {
+      font-size: 13px;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 24px;
+    }
+    .pricing-card ul {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+    .pricing-card ul li {
+      padding: 8px 0;
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pricing-card ul li::before {
+      content: '✓';
+      color: #64ffda;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .pricing-card .btn { width: 100%; text-align: center; border: none; cursor: pointer; }
+
+    /* Process timeline */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .process-step {
+      text-align: center;
+      padding: 32px 20px;
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 16px;
+    }
+    .process-step .step-num {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #64ffda, #48c6ef);
+      color: #0a0a0f;
+      font-size: 20px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .process-step h4 { font-size: 16px; color: #fff; margin-bottom: 8px; }
+    .process-step p { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.6; }
+
+    /* FAQ */
+    .faq-list { margin-top: 48px; }
+    .faq-item {
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 12px;
+    }
+    .faq-item h4 { font-size: 16px; color: #fff; margin-bottom: 8px; }
+    .faq-item p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+    @media (max-width: 768px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-card .price { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="light-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+    <div class="orb orb-5"></div>
+  </div>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo">莫门工作室 <span class="logo-sub">⚡</span><span class="logo-en">Momentum Studio</span></a>
+      <div class="nav-links">
+        <a href="../index.html#about">关于</a>
+        <a href="." style="color:#64ffda;">服务报价</a>
+        <a href="../portfolio/index.html">作品集</a>
+        <a href="../notes/index.html">笔记</a>
+        <a href="../team/index.html">开发团队</a>
+        <a href="../contact/index.html">联系</a>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+    </div>
+  </nav>
+
+  <section class="section" style="padding-top:140px;">
+    <div class="container">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-title">服务与报价</h2>
+      <p class="section-sub">明码标价，不画饼。所有项目交付源码，不绑人。</p>
+
+      <div class="pricing-grid">
+        <!-- 小程序 -->
+        <div class="pricing-card featured">
+          <div class="badge">最受欢迎</div>
+          <div class="pricing-icon">📱</div>
+          <h3>微信小程序</h3>
+          <div class="price">¥5,000 <small>起</small></div>
+          <div class="duration">交付周期 2-4 周</div>
+          <ul>
+            <li>需求分析 + 原型设计</li>
+            <li>界面开发（4-6 页）</li>
+            <li>云开发 / 自建后端</li>
+            <li>微信审核辅助</li>
+            <li>上线部署一条龙</li>
+            <li>1 个月免费维护</li>
+          </ul>
+          <a href="../contact/index.html" class="btn btn-primary">咨询报价 →</a>
+        </div>
+
+        <!-- 网站 -->
+        <div class="pricing-card">
+          <div class="pricing-icon">🌐</div>
+          <h3>网站开发</h3>
+          <div class="price">¥3,000 <small>起</small></div>
+          <div class="duration">交付周期 1-3 周</div>
+          <ul>
+            <li>响应式设计（PC + 移动端）</li>
+            <li>静态网站 / 动态网站</li>
+            <li>GitHub Pages / Vercel 部署</li>
+            <li>域名配置 + HTTPS</li>
+            <li>SEO 基础优化</li>
+            <li>1 个月免费维护</li>
+          </ul>
+          <a href="../contact/index.html" class="btn btn-primary">咨询报价 →</a>
+        </div>
+
+        <!-- 自动化 -->
+        <div class="pricing-card">
+          <div class="pricing-icon">⚙️</div>
+          <h3>Python 脚本 & 自动化</h3>
+          <div class="price">¥500 <small>起</small></div>
+          <div class="duration">交付周期 1-5 天</div>
+          <ul>
+            <li>数据爬虫 / 采集</li>
+            <li>Excel / CSV 批量处理</li>
+            <li>定时任务 & 自动化流程</li>
+            <li>API 对接 & 数据同步</li>
+            <li>报表生成 & 图表</li>
+            <li>源码 + 使用说明交付</li>
+          </ul>
+          <a href="../contact/index.html" class="btn btn-primary">咨询报价 →</a>
+        </div>
+
+        <!-- API -->
+        <div class="pricing-card">
+          <div class="pricing-icon">🔗</div>
+          <h3>API 对接 & 后端</h3>
+          <div class="price">¥2,000 <small>起</small></div>
+          <div class="duration">交付周期 1-2 周</div>
+          <ul>
+            <li>第三方 API 对接（微信/支付宝/云服务）</li>
+            <li>RESTful API 开发</li>
+            <li>数据库设计 & 优化</li>
+            <li>用户认证系统</li>
+            <li>接口文档自动生成</li>
+            <li>源码 + 部署支持</li>
+          </ul>
+          <a href="../contact/index.html" class="btn btn-primary">咨询报价 →</a>
+        </div>
+
+        <!-- 定制 -->
+        <div class="pricing-card">
+          <div class="pricing-icon">🔧</div>
+          <h3>技术咨询 & 定制</h3>
+          <div class="price">¥300 <small>/ 小时</small></div>
+          <div class="duration">按需约时间</div>
+          <ul>
+            <li>技术方案评估</li>
+            <li>代码审查 & 优化建议</li>
+            <li>系统架构设计</li>
+            <li>部署 & 运维指导</li>
+            <li>技术选型分析</li>
+            <li>线上 / 线下均可</li>
+          </ul>
+          <a href="../contact/index.html" class="btn btn-outline">预约咨询 →</a>
+        </div>
+
+        <!-- 全程外包 -->
+        <div class="pricing-card">
+          <div class="pricing-icon">🚀</div>
+          <h3>整包开发</h3>
+          <div class="price">¥10,000 <small>起</small></div>
+          <div class="duration">交付周期 4-8 周</div>
+          <ul>
+            <li>从 0 到 1 完整交付</li>
+            <li>前后端 + 数据库 + 部署</li>
+            <li>小程序 + Web + 后台管理</li>
+            <li>敏捷迭代，每周同步进度</li>
+            <li>技术文档 + 交接培训</li>
+            <li>3 个月免费维护</li>
+          </ul>
+          <a href="../contact/index.html" class="btn btn-primary">咨询报价 →</a>
+        </div>
+
+        <!-- SaaS -->
+        <div class="pricing-card">
+          <div class="pricing-icon">☁️</div>
+          <h3>SaaS 系统</h3>
+          <div class="price">¥30,000 <small>起</small></div>
+          <div class="duration">交付周期 6-12 周</div>
+          <ul>
+            <li>多租户架构设计</li>
+            <li>用户体系 + 权限管理</li>
+            <li>订阅计费（微信/支付宝）</li>
+            <li>数据看板 + 分析</li>
+            <li>API 开放平台</li>
+            <li>云部署 + 运维方案</li>
+          </ul>
+          <a href="../contact/index.html" class="btn btn-primary">咨询报价 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 合作流程 ===== -->
+  <section class="section section-dark">
+    <div class="container">
+      <div class="section-label">Process</div>
+      <h2 class="section-title">合作流程</h2>
+      <p class="section-sub">从需求到上线，四步走</p>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <h4>需求沟通</h4>
+          <p>你描述想法，我出方案和报价。<br>免费评估，无套路。</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <h4>原型确认</h4>
+          <p>出页面草图 / 流程图。<br>确认后再动手写代码。</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <h4>开发交付</h4>
+          <p>敏捷迭代，每周同步进度。<br>源码全交付，不绑人。</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <h4>上线维护</h4>
+          <p>部署上线 + 免费维护期。<br>后续按需支持。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">常见问题</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h4>💰 怎么付款？</h4>
+          <p>方案确认后付 30% 启动，原型确认后再付 40%，交付验收后付尾款 30%。走闲鱼担保交易，双方都安全。</p>
+        </div>
+        <div class="faq-item">
+          <h4>🔄 改需求怎么算？</h4>
+          <p>开发中途的合理微调免费改。大方向变动（加页面、改架构）会重新评估工时，按增量报价，透明公开。</p>
+        </div>
+        <div class="faq-item">
+          <h4>📦 交付哪些东西？</h4>
+          <p>全部源码（带注释）、部署文档、使用说明。小程序额外包含审核辅助。你不绑在我身上，拿走代码想找谁维护都行。</p>
+        </div>
+        <div class="faq-item">
+          <h4>⚡ 小活接不接？</h4>
+          <p>接。几百块的脚本、改个小功能、接个 API，都行。不挑单，先把事做了。</p>
+        </div>
+        <div class="faq-item">
+          <h4>🏢 能开发票吗？</h4>
+          <p>可以。莫门工作室（杭州萧山莫门软件开发工作室）已注册，可开电子发票。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="section section-dark" style="text-align:center;">
+    <div class="container">
+      <h2 class="section-title">有想法？聊聊看</h2>
+      <p class="section-sub" style="margin-bottom:32px;">免费评估方案，不出方案不收钱</p>
+      <a href="../contact/index.html" class="btn btn-primary" style="font-size:16px; padding:16px 48px;">👇 免费评估需求</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">莫门工作室 · Momentum Studio</div>
+        <div class="footer-links">
+          <a href="../index.html#about">关于</a>
+          <a href=".">服务报价</a>
+          <a href="../portfolio/index.html">作品集</a>
+          <a href="../notes/index.html">笔记</a>
+          <a href="../team/index.html">开发团队</a>
+          <a href="../contact/index.html">联系</a>
+        </div>
+        <div class="footer-copy">© 2026 莫门工作室 · 用代码解决问题</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/main.js"></script>
+</body>
+</html>
