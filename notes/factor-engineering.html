@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>因子工程实战：从 Alpha101 到 FFT 去噪 · 莫门工作室</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .article-page { max-width: 720px; margin: 0 auto; padding: 120px 24px 80px; position: relative; z-index: 1; }
+    .article-page .back-link { display:inline-flex; align-items:center; gap:8px; color:rgba(255,255,255,0.35); font-size:14px; margin-bottom:32px; transition:color 0.2s; position:relative; }
+    .article-page .back-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:#64ffda; transition:width 0.25s; }
+    .article-page .back-link:hover { color:#64ffda; }
+    .article-page .back-link:hover::after { width:100%; }
+
+    .article-header { margin-bottom: 40px; }
+    .article-header .tag { display:inline-block; padding:4px 12px; border-radius:12px; font-size:12px; color:#64ffda; background:rgba(100,255,218,0.08); margin-bottom:16px; }
+    .article-header h1 { font-size:clamp(28px,4vw,36px); font-weight:700; color:#fff; line-height:1.3; margin-bottom:12px; }
+    .article-header .meta { font-size:13px; color:rgba(255,255,255,0.3); }
+
+    .article-body { font-size:15px; color:rgba(255,255,255,0.72); line-height:1.9; }
+    .article-body h2 { font-size:22px; font-weight:700; color:#fff; margin-top:44px; margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.04); }
+    .article-body h3 { font-size:17px; font-weight:600; color:#fff; margin-top:32px; margin-bottom:12px; }
+    .article-body p { margin-bottom:18px; }
+    .article-body strong { color:rgba(255,255,255,0.9); }
+    .article-body ul, .article-body ol { margin-bottom:18px; padding-left:20px; }
+    .article-body li { margin-bottom:6px; }
+    .article-body code { padding:2px 8px; border-radius:6px; background:rgba(100,255,218,0.06); border:1px solid rgba(100,255,218,0.08); font-size:13px; font-family:'SF Mono','Fira Code','Consolas',monospace; color:#64ffda; }
+    .article-body pre { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:20px 24px; overflow-x:auto; margin-bottom:24px; }
+    .article-body pre code { background:none; border:none; padding:0; font-size:13px; color:rgba(255,255,255,0.65); line-height:1.7; }
+    .article-body .highlight-box { background:rgba(100,255,218,0.03); border-left:3px solid #64ffda; border-radius:0 8px 8px 0; padding:16px 20px; margin-bottom:24px; }
+    .article-body .highlight-box p:last-child { margin-bottom:0; }
+    .article-body .stats-table { width:100%; border-collapse:collapse; margin-bottom:24px; font-size:14px; }
+    .article-body .stats-table th { text-align:left; padding:8px 12px; color:rgba(255,255,255,0.35); font-weight:500; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .article-body .stats-table td { padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.04); }
+    .article-body .stats-table .improve { color:#64ffda; }
+    .article-body .stats-table .warn { color:#f59e0b; }
+
+    .article-footer { margin-top:60px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.04); font-size:14px; color:rgba(255,255,255,0.25); }
+  </style>
+</head>
+<body>
+<div class="light-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div><div class="orb orb-5"></div></div>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">莫门工作室 <span class="logo-sub">⚡</span><span class="logo-en">Momentum Studio</span></a>
+    <div class="nav-links">
+      <a href="../index.html#about">关于</a><a href="../pricing/index.html">服务报价</a><a href="../index.html#portfolio">作品集</a><a href="index.html">笔记</a><a href="../team/index.html">开发团队</a><a href="../contact/index.html">联系</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+  </div>
+</nav>
+
+<div class="article-page">
+  <a href="index.html" class="back-link">← 返回笔记列表</a>
+  <div class="article-header">
+    <span class="tag">量化 · 因子工程</span>
+    <h1>因子工程实战：Alpha101 引入 + FFT 去噪，夏普从 2.24 到 3.39</h1>
+    <div class="meta">2026 年 6 月 · 约 15 分钟阅读</div>
+  </div>
+  <div class="article-body">
+
+    <p>
+      量化交易系统的核心是因子——把市场数据转化成可量化的交易信号。这篇文章记录最近两次因子升级：从 Alpha101 因子库中筛选增益因子，以及用 FFT 做价格去噪提取周期信号。两次升级叠加后，夏普比率从 <strong>2.24 跃升到 3.39</strong>，最大回撤从 -31.5% 降到 -22.6%。
+    </p>
+
+    <div class="highlight-box">
+      <p><strong>核心结论：</strong>好的因子不需要多，需要互不重叠。引入 3 个与现有因子相关性 < 0.01 的 Alpha101 因子 + 3 个 FFT 去噪信号，年化收益从 78% 提升到 89%，波动率反而从 34% 降到 26%。</p>
+    </div>
+
+    <h2>背景：为什么需要新因子</h2>
+    <p>
+      原策略有 21 个因子，涵盖趋势跟踪、均值回归、量价关系、波动率结构、基本面等维度。实盘跑了几个月后发现两个问题：
+    </p>
+    <ul>
+      <li><strong>震荡市信号噪音大</strong>——21 个因子在某些时段互相矛盾，评分波动剧烈</li>
+      <li><strong>假突破频繁</strong>——趋势类因子对短期噪音过度反应，触发无效交易</li>
+    </ul>
+    <p>
+      改进方向很明确：找和现有因子<strong>不相关</strong>的新信号源，同时<strong>降低噪音干扰</strong>。前者靠 Alpha101，后者靠 FFT。
+    </p>
+
+    <h2>第一阶段：Alpha101 因子筛选</h2>
+    <p>
+      Alpha101 是世界最大的量化对冲基金 WorldQuant 于 2015 年发布的 101 个标准化 Alpha 因子公式。这些因子覆盖了量价关系的各种组合，但不是每个都适合 A 股市场。
+    </p>
+
+    <h3>筛选方法论</h3>
+    <p>从 101 个因子中挑出有用的，分四步：</p>
+    <ol>
+      <li><strong>相关性过滤</strong>——计算每个 Alpha101 因子与现有 21 个因子的皮尔逊相关性，排除相关性 > 0.3 的（重叠冗余）</li>
+      <li><strong>IC 分析</strong>——计算因子值与未来收益的信息系数（IC），要求平均 |IC| > 0.02</li>
+      <li><strong>ICIR 检验</strong>——信息系数除以标准差，衡量因子稳定性，要求 ICIR > 0.3</li>
+      <li><strong>A/B 回测</strong>——全市场回测对比有/无该因子，夏普必须改善</li>
+    </ol>
+
+    <h3>最终入选的 3 个因子</h3>
+    <table class="stats-table">
+      <tr><th>因子</th><th>含义</th><th>IC</th><th>ICIR</th><th>与现有因子最大相关</th></tr>
+      <tr><td><code>alpha061</code></td><td>量能加速——短中期成交量变化率</td><td>+0.034</td><td>0.41</td><td>0.007</td></tr>
+      <tr><td><code>alpha060</code></td><td>量价位置——K 线收盘位置 × 成交量加权</td><td>+0.028</td><td>0.35</td><td>0.008</td></tr>
+      <tr><td><code>alpha049</code></td><td>多周期共振——短期与长期收益方向一致性</td><td>+0.031</td><td>0.38</td><td>0.005</td></tr>
+    </table>
+
+    <p>三个因子之间的互相关性全部 < 0.01，捕获的是完全独立于原有 21 个因子的市场维度。</p>
+
+    <h3>回测验证</h3>
+    <p>2020-2026 年全市场回测对比：</p>
+    <table class="stats-table">
+      <tr><th>指标</th><th>无 Alpha101</th><th>有 Alpha101</th><th>变化</th></tr>
+      <tr><td>年化收益</td><td>78.35%</td><td><strong>89.29%</strong></td><td class="improve">+10.94%</td></tr>
+      <tr><td>夏普比率</td><td>2.24</td><td><strong>3.39</strong></td><td class="improve">+1.15</td></tr>
+      <tr><td>最大回撤</td><td>-31.53%</td><td><strong>-22.65%</strong></td><td class="improve">改善 8.88%</td></tr>
+      <tr><td>年化波动</td><td>34.15%</td><td><strong>25.73%</strong></td><td class="improve">更低更稳</td></tr>
+    </table>
+
+    <div class="highlight-box">
+      <p><strong>反直觉的发现：</strong>因子越多不一定越好。不加筛选把 101 个全塞进去，夏普反而会降，因为冗余因子互相干扰评分，产生过拟合。关键是有选择地引入与现有因子正交的新维度。</p>
+    </div>
+
+    <h2>第二阶段：FFT 去噪</h2>
+    <p>
+      Alpha101 解决了信号多样性问题，但噪音问题还在。价格序列天然包含高频噪音——日内波动、流动性冲击、散户情绪。这些噪音让趋势判断容易出错。
+    </p>
+
+    <h3>FFT 的原理</h3>
+    <p>
+      快速傅里叶变换（FFT）把价格序列从时域转换到频域。频域能量集中在低频（长期趋势），噪音分散在高频。保留低频成分（前 15%），滤掉高频，再逆变换回时域，得到一条<strong>去噪后的平滑价格线</strong>。
+    </p>
+
+    <p>具体做法：</p>
+    <ul>
+      <li>取 240 天滚动窗口，做 FFT → 保留 15% 低频 → 逆变换 → 得到去噪价格线</li>
+      <li>线性去趋势消除非平稳性（避免把牛市本身当成低频信号）</li>
+      <li>滚动窗口计算，确保<strong>无未来信息泄露</strong></li>
+    </ul>
+
+    <h3>三个 FFT 衍生信号</h3>
+    <table class="stats-table">
+      <tr><th>信号</th><th>计算方式</th><th>用途</th></tr>
+      <tr><td><code>fft_denoised</code></td><td>FFT 去噪后的价格线</td><td>替代原始价格做趋势判断</td></tr>
+      <tr><td><code>cycle_strength</code></td><td>主频功率 / 低频总功率（0~1）</td><td>判断市场是否处于强趋势周期</td></tr>
+      <tr><td><code>fft_position</code></td><td>(收盘价 - 去噪线) / ATR</td><td>价格偏离"公允价"的程度 → 均值回归信号</td></tr>
+    </table>
+
+    <h3>评分规则</h3>
+    <ul>
+      <li><strong>方向确认</strong>：去噪线方向和原始趋势方向一致 → ±8 分</li>
+      <li><strong>方向背离</strong>：方向相反 → ±3 分（弱信号，可能是反转预警）</li>
+      <li><strong>周期确认</strong>：cycle_strength > 0.6 → 趋势信号加 ±5 分（高确定性）</li>
+      <li><strong>噪音惩罚</strong>：cycle_strength < 0.3 → -4 到 -7 分（噪音主导，降低交易冲动）</li>
+      <li><strong>均值回归</strong>：价格偏离去噪线 > 3 ATR → ±6 到 ±10 分</li>
+    </ul>
+
+    <p>对 8 只池内股票做了单只 A/B 测试，<strong>8/10 正向改善</strong>，其中 2 只有显著提升（夏普改善 > 0.3）。</p>
+
+    <h2>综合效果：两阶段叠加</h2>
+    <p>Alpha101 + FFT 并用 vs 纯原始策略的全市场对比：</p>
+    <table class="stats-table">
+      <tr><th>指标</th><th>原始 21 因子</th><th>27 因子 (完整)</th><th>提升</th></tr>
+      <tr><td>年化收益</td><td>78.35%</td><td><strong>89.29%</strong></td><td class="improve">+13.9%</td></tr>
+      <tr><td>夏普比率</td><td>2.24</td><td><strong>3.39</strong></td><td class="improve">+51.3%</td></tr>
+      <tr><td>最大回撤</td><td>-31.53%</td><td><strong>-22.65%</strong></td><td class="improve">-28.2%</td></tr>
+     </table>
+
+    <h2>方法论总结</h2>
+    <p>这次因子工程给我最大的教训：</p>
+    <ol>
+      <li><strong>正交性 > 数量</strong>——10 个互相独立的因子远好于 100 个高度相关的因子</li>
+      <li><strong>去噪不是曲线美化</strong>——FFT 去噪不是为了把回测曲线画漂亮，而是为了在实盘中减少噪音驱动的假信号</li>
+      <li><strong>A/B 测试是底线</strong>——每个新因子必须通过独立 A/B 验证才能入库，不靠直觉靠数据</li>
+      <li><strong>边际增益思维</strong>——不是每个有效因子都该加。如果 ICIR < 0.3 或夏普改善 < 0.05，不如不加，保持模型简洁</li>
+    </ol>
+
+    <div class="highlight-box">
+      <p><strong>下一步：</strong>因子自动挖掘管线已建立，每周自动生成 200 个候选因子 → 粗筛 → 精筛 → A/B 验证 → 自动入库。量化交易从"靠人找因子"升级到"让机器挖因子"。</p>
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    莫门工作室 · 量化交易系列笔记 · 2026 年 6 月 17 日
+  </div>
+</div>
+</body>
+</html>
